@@ -1,0 +1,10 @@
+#libft ignore
+./libft/obj
+./libft/libft.a
+
+#project ignore
+./obj
+
+#add project file
+infile
+outfile
