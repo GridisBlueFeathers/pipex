@@ -6,5 +6,8 @@
 ./obj
 
 #add project file
+pipex
 infile
 outfile
+
+
