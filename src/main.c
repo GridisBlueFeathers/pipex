@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/05/30 15:42:13 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:36:55 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <unistd.h>
@@ -20,6 +20,8 @@ char	*read_file(char *file_name)
 
 int	parse_args(int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
 	return (1);
 }
 
