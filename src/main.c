@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/10 18:16:46 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:31:34 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -36,20 +36,20 @@ int main(int argc, char **argv, char **envp) {
   printf("hello there\n");
   return (0);*/
 
-	int fd = open("./infile-extra-thicc", O_RDONLY);
+	/*if (access("./infile", R_OK))
+		perror("Error");
+	int fd = open("./infile", O_RDONLY);
 	if (fd == -1)
 		perror("Error");
+	dup2(STDOUT_FILENO, fd);
 	char *content = NULL;
 	char *buf = "";
 	while (get_next_line(fd, &buf) && buf)
 	{
-		printf("%s\n", buf);
 		content = ft_strjoin(content, buf);
 		ft_free_n_null((void **)&buf);
 	}
-	printf("%s\n", content);
-	ft_free_n_null((void **)&content);
-	close(fd);
+	close(fd);*/
 
 	/*int i = 0;
 	char *path_raw;
@@ -73,30 +73,29 @@ int main(int argc, char **argv, char **envp) {
 		i++;
 	}*/
 
-	/*char	*argvv[2] = {"hi", NULL};
-  (void)argvv;
-  int i = 0;
-  while(argv[i])
-  {
-		  printf("%p\n", argv[i]);
-		  i++;
-  }
-  printf("%p\n", argv[i]);*/
-	// execve("/usr/bin/echo", argv, NULL);
+	char *args[] = {"grep", "hey", NULL};
+	pid_t p = fork();
+	if (!p)
+		execve("/usr/bin/grep", args, NULL);
+	else
+		write(STDIN_FILENO, "hey hello", 9);
+
+
+
+	//write(0, content, ft_strlen(content));
+	//ft_free_n_null((void **)&content);
 	/*int	fd[2];
-  if (pipe(fd) == -1) {
-		  return 1;
-  }
+	if (pipe(fd) == -1) {
+		return 1;
+	}
 
-  int pid = fork();
-  if (pid == -1) {
-		  return 1;
-  }
-  if (!pid) {
-		  dup2(fd[1], STDOUT_FILENO);
-		  close(fd[0]);
-		  close(fd[1]);
-
-
-  }*/
+	int pid = fork();
+	if (pid == -1) {
+		return 1;
+	}
+	if (!pid) {
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+	}*/
 }
