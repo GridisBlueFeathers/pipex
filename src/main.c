@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/10 19:31:34 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:46:16 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -36,20 +36,6 @@ int main(int argc, char **argv, char **envp) {
   printf("hello there\n");
   return (0);*/
 
-	/*if (access("./infile", R_OK))
-		perror("Error");
-	int fd = open("./infile", O_RDONLY);
-	if (fd == -1)
-		perror("Error");
-	dup2(STDOUT_FILENO, fd);
-	char *content = NULL;
-	char *buf = "";
-	while (get_next_line(fd, &buf) && buf)
-	{
-		content = ft_strjoin(content, buf);
-		ft_free_n_null((void **)&buf);
-	}
-	close(fd);*/
 
 	/*int i = 0;
 	char *path_raw;
@@ -74,11 +60,36 @@ int main(int argc, char **argv, char **envp) {
 	}*/
 
 	char *args[] = {"grep", "hey", NULL};
-	pid_t p = fork();
-	if (!p)
+	int	fd[2];
+
+	if (access("./infile", R_OK))
+		perror("Error");
+	int fd_infile = open("./infile", O_RDONLY);
+	if (fd_infile == -1)
+		perror("Error");
+	char *content = NULL;
+	char *buf = "";
+	while (get_next_line(fd_infile, &buf) && buf)
+	{
+		content = ft_strjoin(content, buf);
+		ft_free_n_null((void **)&buf);
+	}
+	close(fd_infile);
+
+	pipe(fd);
+	pid_t p2 = fork();
+	if (!p2)
+	{
+		write(fd[1], content, ft_strlen(content));
+
+	}
+	pid_t p1 = fork();
+	if (!p1)
+	{
+		dup2(fd[0], STDIN_FILENO);
 		execve("/usr/bin/grep", args, NULL);
-	else
-		write(STDIN_FILENO, "hey hello", 9);
+	}
+
 
 
 
