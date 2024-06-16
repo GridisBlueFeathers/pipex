@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/16 23:32:30 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:03:35 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -33,18 +33,24 @@ t_pipex_state	*state_init(int	argc, char **argv, char **envp)
 	return (state);
 }
 
-void	state_free(t_pipex_state **state)
+void	state_free(t_pipex_state **state_addr)
 {
-	int	i;
+	t_pipex_state	*state;
+	int				i;
 
-	if (!state)
+	if (!state_addr)
 		return ;
-	while ((*state)->path && (*state)->path[i])
+	state = *state_addr;
+	i = 0;
+	while (state->path && state->path[i])
 	{
-		ft_free_n_null((void **)(*state)->path[i]);
+		ft_free_n_null((void **)&(state->path[i]));
 		i++;
 	}
-	ft_free_n_null((void **)state);
+	ft_free_n_null((void **)&(state->path));
+	state->argv = NULL;
+	state->envp = NULL;
+	ft_free_n_null((void **)state_addr);
 }
 
 t_command	*state_feed_command(char **path, char *command_raw)
@@ -93,9 +99,11 @@ int	path_get(t_pipex_state *state)
 	if (!path_env)
 		return (0);
 	path_raw = ft_substr(path_env, 5, ft_strlen(path_env));
+	ft_free_n_null((void **)&path_env);
 	if (!path_raw)
 		return (0);
 	state->path = ft_split(path_raw, ':');
+	ft_free_n_null((void **)&path_raw);
 	if (!state->path)
 		return (0);
 	return (1);
@@ -103,15 +111,16 @@ int	path_get(t_pipex_state *state)
 
 int main(int argc, char **argv, char **envp) {
 	t_pipex_state	*state;
-	char			*path_env;
-	(void)argc;
-	(void)argv;
-	(void)envp;
 
 	state = state_init(argc, argv, envp);
-	path_env = env_get(state, "PATH");
-	if (!path_env || !path_get(state))
+	if (!path_get(state))
 		return (state_free(&state), 1);
+	int i = 0;
+	while (state->path[i])
+	{
+		printf("%s\n", state->path[i]);
+		i++;
+	}
 	state_free(&state);
 
 	/*int fd = open("./infile", O_WRONLY | O_CREAT);

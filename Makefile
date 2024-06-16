@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/06/10 15:28:53 by svereten         ###   ########.fr        #
+#    Updated: 2024/06/16 23:38:07 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -30,10 +30,19 @@ INCLUDE = -I./include -I./libft/include
 
 LIBFT = ./libft/libft.a
 
+DEV_NAME = pipex_dev
+
+DEV_CFLAGS = -g
+
 all: ${NAME}
 
 ${NAME}: ${OBJS} ${LIBFT}
 	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@
+
+dev: ${DEV_NAME}
+
+${DEV_NAME}: ${OBJS} ${LIBFT}
+	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} $^ -o $@
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIRS}
 	${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
