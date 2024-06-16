@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/13 14:16:20 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:27:41 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -18,10 +18,15 @@ typedef struct	s_command
 	char **args;
 }	t_command;
 
-typedef struct	s_pipex_config
+typedef struct	s_pipex_state
 {
-	char		*hey;
+	int			infile_fd;
+	int			outfile_fd;
+	int			argc;
+	char		**argv;
+	char		**envp;
+	char		**path;
 	t_command	*commands;
-}	t_pipex_config;
+}	t_pipex_state;
 
 #endif

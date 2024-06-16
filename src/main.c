@@ -6,19 +6,114 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/13 16:27:18 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:32:30 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "get_next_line.h"
+#include "pipex.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
 
-int main(int argc, char **argv, char **envp) {
+t_pipex_state	*state_init(int	argc, char **argv, char **envp)
+{
+	t_pipex_state	*state;
+
+	state = (t_pipex_state *)ft_calloc(1, sizeof(t_pipex_state));
+	if (!state)
+	{
+		ft_putstr_fd("Error\n", STDERR_FILENO);
+		exit (1);
+	}
+	state->commands = NULL;
+	state->argc = argc;
+	state->argv = argv;
+	state->envp = envp;
+	return (state);
+}
+
+void	state_free(t_pipex_state **state)
+{
+	int	i;
+
+	if (!state)
+		return ;
+	while ((*state)->path && (*state)->path[i])
+	{
+		ft_free_n_null((void **)(*state)->path[i]);
+		i++;
+	}
+	ft_free_n_null((void **)state);
+}
+
+t_command	*state_feed_command(char **path, char *command_raw)
+{
+	(void)path;
+	(void)command_raw;
+	return (NULL);
+
+}
+
+
+void	state_feed(t_pipex_state *state, int argc, char **argv, char **envp)
+{
+	(void)state;
 	(void)argc;
 	(void)argv;
 	(void)envp;
+
+
+}
+
+char	*env_get(t_pipex_state *state, char *env)
+{
+	char	*res;
+	int		i;
+
+	i = 0;
+	while (state->envp[i])
+	{
+		if (!ft_strncmp(state->envp[i], env, ft_strlen(env)))
+		{
+			res = ft_strdup(state->envp[i]);
+			return (res);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+int	path_get(t_pipex_state *state)
+{
+	char	*path_env;
+	char	*path_raw;
+
+	path_env = env_get(state, "PATH");
+	if (!path_env)
+		return (0);
+	path_raw = ft_substr(path_env, 5, ft_strlen(path_env));
+	if (!path_raw)
+		return (0);
+	state->path = ft_split(path_raw, ':');
+	if (!state->path)
+		return (0);
+	return (1);
+}
+
+int main(int argc, char **argv, char **envp) {
+	t_pipex_state	*state;
+	char			*path_env;
+	(void)argc;
+	(void)argv;
+	(void)envp;
+
+	state = state_init(argc, argv, envp);
+	path_env = env_get(state, "PATH");
+	if (!path_env || !path_get(state))
+		return (state_free(&state), 1);
+	state_free(&state);
+
 	/*int fd = open("./infile", O_WRONLY | O_CREAT);
   dup2(fd, STDOUT_FILENO);
   close(fd);
@@ -48,18 +143,18 @@ int main(int argc, char **argv, char **envp) {
 		i++;
 	}*/
 
-	char *args_grep[] = {"grep", "hey", NULL};
+	/*char *args_grep[] = {"grep", "hey", NULL};
 	char *args_wc[] = {"wc", "-l", NULL};
 	char *args_ls[] = {"ls", "-a", NULL};
 	(void)args_ls;
 	(void)args_grep;
 	(void)args_wc;
 
-	int	fd[2];
+	int	fd[2];*/
 
-	if (access("./nofile", R_OK))
-		perror("Error");
-	int fd_infile = open("./nofile", O_RDONLY);
+	//if (access("./nofile", R_OK))
+	//	perror("Error");
+	/*int fd_infile = open("./nofile", O_RDONLY);
 	if (fd_infile == -1)
 		perror("Error");
 	char *content = NULL;
@@ -97,7 +192,7 @@ int main(int argc, char **argv, char **envp) {
 		close(fd[1]);
 		close(fd[0]);
 		execve("/usr/bin/wc", args_wc, NULL);
-	}
+	}*/
 
 	//write(0, content, ft_strlen(content));
 	//ft_free_n_null((void **)&content);
