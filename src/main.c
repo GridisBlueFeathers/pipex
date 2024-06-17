@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 00:03:35 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:34:37 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -16,31 +16,20 @@
 #include <stdio.h>
 #include <unistd.h>
 
-t_pipex_state	*state_init(int	argc, char **argv, char **envp)
+void	state_init(t_pipex_state *s, int c, char **v, char **e)
 {
-	t_pipex_state	*state;
-
-	state = (t_pipex_state *)ft_calloc(1, sizeof(t_pipex_state));
-	if (!state)
-	{
-		ft_putstr_fd("Error\n", STDERR_FILENO);
-		exit (1);
-	}
-	state->commands = NULL;
-	state->argc = argc;
-	state->argv = argv;
-	state->envp = envp;
-	return (state);
+	s->path = NULL;
+	s->commands = NULL;
+	s->argc = c;
+	s->argv = v;
+	s->envp = e;
+	s->error = 0;
 }
 
-void	state_free(t_pipex_state **state_addr)
+void	state_free(t_pipex_state *state)
 {
-	t_pipex_state	*state;
-	int				i;
+	int	i;
 
-	if (!state_addr)
-		return ;
-	state = *state_addr;
 	i = 0;
 	while (state->path && state->path[i])
 	{
@@ -50,7 +39,6 @@ void	state_free(t_pipex_state **state_addr)
 	ft_free_n_null((void **)&(state->path));
 	state->argv = NULL;
 	state->envp = NULL;
-	ft_free_n_null((void **)state_addr);
 }
 
 t_command	*state_feed_command(char **path, char *command_raw)
@@ -58,17 +46,6 @@ t_command	*state_feed_command(char **path, char *command_raw)
 	(void)path;
 	(void)command_raw;
 	return (NULL);
-
-}
-
-
-void	state_feed(t_pipex_state *state, int argc, char **argv, char **envp)
-{
-	(void)state;
-	(void)argc;
-	(void)argv;
-	(void)envp;
-
 
 }
 
@@ -109,16 +86,25 @@ int	path_get(t_pipex_state *state)
 	return (1);
 }
 
-int main(int argc, char **argv, char **envp) {
-	t_pipex_state	*state;
-
-	state = state_init(argc, argv, envp);
+void	state_feed(t_pipex_state *state)
+{
 	if (!path_get(state))
+		state->error = 1;
+}
+
+int main(int argc, char **argv, char **envp) {
+	t_pipex_state	state;
+
+	if (argc == 1)
+		return (0);
+	state_init(&state, argc, argv, envp);
+	state_feed(&state);
+	if (state.error)
 		return (state_free(&state), 1);
 	int i = 0;
-	while (state->path[i])
+	while (state.path[i])
 	{
-		printf("%s\n", state->path[i]);
+		printf("%s\n", state.path[i]);
 		i++;
 	}
 	state_free(&state);
