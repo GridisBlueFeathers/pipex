@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/06/17 17:43:51 by svereten         ###   ########.fr        #
+#    Updated: 2024/06/17 18:36:31 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -52,7 +52,7 @@ ${DEV_NAME}: ${OBJS} ${DEV_OBJS} ${LIBFT}
 	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} $^ -o $@
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIRS}
-	${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
+	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} -c $< -o $@
 
 ${LIBFT}:
 	${MAKE} -C ${LIBFT_DIR}

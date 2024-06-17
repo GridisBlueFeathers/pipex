@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 18:05:54 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:48:41 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -24,6 +24,7 @@ void	state_init(t_pipex_state *s, int c, char **v, char **e)
 	s->argc = c;
 	s->argv = v;
 	s->envp = e;
+	s->path_length = 0;
 	s->error = 0;
 }
 
@@ -32,14 +33,9 @@ void	state_free(t_pipex_state *state)
 	int	i;
 	int	j;
 
-	i = 0;
 	j = 0;
-	while (state->path && state->path[i])
-	{
-		ft_free_n_null((void **)&(state->path[i]));
-		i++;
-	}
 	i = 0;
+	path_free(state);
 	while (state->commands && state->commands[i])
 	{
 		j = 0;
@@ -58,31 +54,56 @@ void	state_free(t_pipex_state *state)
 	state->envp = NULL;
 }
 
-t_command	*state_feed_command(char **path, char *command_raw)
+int	state_feed_command_args(t_pipex_state *state, int i)
 {
-	(void)path;
-	(void)command_raw;
-	return (NULL);
+	state->commands[i] = (t_command *)ft_calloc(1, sizeof(t_command));
+	if (!state->commands[i])
+		return (0);
+	state->commands[i]->args = ft_split(state->argv[i + 2], ' ');
+	if (!state->commands[i]->args)
+		return (0);
+	return (1);
+}
 
+int	state_feed_command_path(t_pipex_state *state, int index)
+{
+	char	*path_arg;
+	char	*path_dup;
+	int		i;
+
+	i = 0;
+	while (state->path[i])
+	{
+		path_dup = ft_strdup(state->path[i]);
+		if (!path_dup)
+			return (0);
+		path_arg = ft_strjoin(path_dup, state->commands[index]->args[0]);
+		printf("%s\n", path_arg);
+		ft_free_n_null((void **)&path_arg);
+		i++;
+	}
+	return (1);
+}
+
+int	state_feed_command(t_pipex_state *state, int i)
+{
+	if (!state_feed_command_args(state, i)
+		|| !state_feed_command_path(state, i))
+		return (0);
+	return (1);
 }
 
 int	state_feed_process_commands(t_pipex_state *state)
 {
-	char	*command_path;
 	int		i;
 
-	(void)command_path;
 	state->commands = (t_command **)ft_calloc(state->argc - 2, sizeof(t_command *));
 	if (!state->commands)
 		return (0);
 	i = 0;
 	while (i < state->argc - 3)
 	{
-		state->commands[i] = (t_command *)ft_calloc(1, sizeof(t_command));
-		if (!state->commands[i])
-			return (0);
-		state->commands[i]->args = ft_split(state->argv[i + 2], ' ');
-		if (!state->commands[i]->args)
+		if (!state_feed_command(state, i))
 			return (0);
 		dev_command_print_args(state->commands[i]);
 		i++;
