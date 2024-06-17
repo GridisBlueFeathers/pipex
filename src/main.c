@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 13:16:32 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:19:15 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -60,6 +60,7 @@ int	state_feed_process_commands(t_pipex_state *state)
 	while (i < state->argc - 1)
 	{
 
+		i++;
 	}
 	
 	return (1);
