@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 11:36:45 by svereten         ###   ########.fr       */
+/*   Created: 2024/06/17 11:35:57 by svereten          #+#    #+#             */
+/*   Updated: 2024/06/17 11:36:25 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
+#include "libft.h"
 
-typedef struct	s_command
+char	*env_get(t_pipex_state *state, char *env)
 {
-	char *path;
-	char **args;
-}	t_command;
+	char	*res;
+	int		i;
 
-typedef struct	s_pipex_state
-{
-	int			infile_fd;
-	int			outfile_fd;
-	int			argc;
-	int			error;
-	char		**argv;
-	char		**envp;
-	char		**path;
-	t_command	*commands;
-}	t_pipex_state;
-
-char	*env_get(t_pipex_state *state, char *env);
-
-
-
-#endif
+	i = 0;
+	while (state->envp[i])
+	{
+		if (!ft_strncmp(state->envp[i], env, ft_strlen(env)))
+		{
+			res = ft_strdup(state->envp[i]);
+			return (res);
+		}
+		i++;
+	}
+	return (NULL);
+}

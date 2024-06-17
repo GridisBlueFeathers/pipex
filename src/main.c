@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 11:34:37 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:36:09 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -47,24 +47,6 @@ t_command	*state_feed_command(char **path, char *command_raw)
 	(void)command_raw;
 	return (NULL);
 
-}
-
-char	*env_get(t_pipex_state *state, char *env)
-{
-	char	*res;
-	int		i;
-
-	i = 0;
-	while (state->envp[i])
-	{
-		if (!ft_strncmp(state->envp[i], env, ft_strlen(env)))
-		{
-			res = ft_strdup(state->envp[i]);
-			return (res);
-		}
-		i++;
-	}
-	return (NULL);
 }
 
 int	path_get(t_pipex_state *state)
