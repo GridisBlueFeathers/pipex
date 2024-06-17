@@ -6,12 +6,13 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 16:19:15 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:05:54 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "get_next_line.h"
 #include "pipex.h"
+#include "dev.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -29,14 +30,30 @@ void	state_init(t_pipex_state *s, int c, char **v, char **e)
 void	state_free(t_pipex_state *state)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (state->path && state->path[i])
 	{
 		ft_free_n_null((void **)&(state->path[i]));
 		i++;
 	}
+	i = 0;
+	while (state->commands && state->commands[i])
+	{
+		j = 0;
+		while (state->commands[i]->args && state->commands[i]->args[j])
+		{
+			ft_free_n_null((void **)&(state->commands[i]->args[j]));
+			j++;
+		}
+		ft_free_n_null((void **)&(state->commands[i]->args));
+		ft_free_n_null((void **)&(state->commands[i]));
+		i++;
+	}
 	ft_free_n_null((void **)&(state->path));
+	ft_free_n_null((void **)&(state->commands));
 	state->argv = NULL;
 	state->envp = NULL;
 }
@@ -51,15 +68,23 @@ t_command	*state_feed_command(char **path, char *command_raw)
 
 int	state_feed_process_commands(t_pipex_state *state)
 {
-	int	i;
+	char	*command_path;
+	int		i;
 
-	state->commands = (t_command *)ft_calloc(state->argc - 3, sizeof(t_command));
+	(void)command_path;
+	state->commands = (t_command **)ft_calloc(state->argc - 2, sizeof(t_command *));
 	if (!state->commands)
 		return (0);
-	i = 2;
-	while (i < state->argc - 1)
+	i = 0;
+	while (i < state->argc - 3)
 	{
-
+		state->commands[i] = (t_command *)ft_calloc(1, sizeof(t_command));
+		if (!state->commands[i])
+			return (0);
+		state->commands[i]->args = ft_split(state->argv[i + 2], ' ');
+		if (!state->commands[i]->args)
+			return (0);
+		dev_command_print_args(state->commands[i]);
 		i++;
 	}
 	
@@ -81,12 +106,7 @@ int main(int argc, char **argv, char **envp) {
 	state_feed(&state);
 	if (state.error)
 		return (state_free(&state), 1);
-	int i = 0;
-	while (state.path[i])
-	{
-		printf("%s\n", state.path[i]);
-		i++;
-	}
+	dev_state_print_path(&state);
 	state_free(&state);
 
 	/*int fd = open("./infile", O_WRONLY | O_CREAT);

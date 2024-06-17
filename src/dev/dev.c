@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   dev.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 17:54:35 by svereten         ###   ########.fr       */
+/*   Created: 2024/06/17 17:37:53 by svereten          #+#    #+#             */
+/*   Updated: 2024/06/17 17:50:16 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
+#include "libft.h"
+#include "ft_printf.h"
 
-typedef struct	s_command
+void	dev_state_print_path(t_pipex_state *state)
 {
-	char *path;
-	char **args;
-}	t_command;
+	int i = 0;
+	while (state->path[i])
+	{
+		ft_printf("%s\n", state->path[i]);
+		i++;
+	}
+}
 
-typedef struct	s_pipex_state
+void	dev_command_print_args(t_command *command)
 {
-	int			infile_fd;
-	int			outfile_fd;
-	int			argc;
-	int			error;
-	char		**argv;
-	char		**envp;
-	char		**path;
-	t_command	**commands;
-}	t_pipex_state;
-
-char	*env_get(t_pipex_state *state, char *env);
-
-int		path_get(t_pipex_state *state);
-
-#endif
+	int i = 0;
+	while (command->args[i])
+	{
+		ft_printf("%s\n", command->args[i]);
+		i++;
+	}
+}

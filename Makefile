@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/06/17 16:18:34 by svereten         ###   ########.fr        #
+#    Updated: 2024/06/17 17:43:51 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -15,7 +15,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC_PROJ = main \
+SRC_FILES = main \
 		   env/env \
 		   path/path \
 
@@ -23,8 +23,8 @@ SRC_DIR = src
 OBJ_DIR = obj
 LIBFT_DIR = libft
 
-SRCS = $(SRC_PROJ:%=${SRC_DIR}/%.c)
-OBJS = $(SRC_PROJ:%=${OBJ_DIR}/%.o)
+SRCS = $(SRC_FILES:%=${SRC_DIR}/%.c)
+OBJS = $(SRC_FILES:%=${OBJ_DIR}/%.o)
 
 OBJ_DIRS = $(sort $(dir ${OBJS}))
 
@@ -36,6 +36,11 @@ DEV_NAME = pipex_dev
 
 DEV_CFLAGS = -g
 
+DEV_FILES = dev/dev \
+
+DEV_SRCS = ${DEV_FILES:%=${SRC_DIR}/%.c}
+DEV_OBJS = ${DEV_FILES:%=${SRC_DIR}/%.c}
+
 all: ${NAME}
 
 ${NAME}: ${OBJS} ${LIBFT}
@@ -43,7 +48,7 @@ ${NAME}: ${OBJS} ${LIBFT}
 
 dev: ${DEV_NAME}
 
-${DEV_NAME}: ${OBJS} ${LIBFT}
+${DEV_NAME}: ${OBJS} ${DEV_OBJS} ${LIBFT}
 	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} $^ -o $@
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIRS}

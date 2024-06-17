@@ -1,37 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   dev.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 17:54:35 by svereten         ###   ########.fr       */
+/*   Created: 2024/06/17 17:44:24 by svereten          #+#    #+#             */
+/*   Updated: 2024/06/17 17:50:26 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef PIPEX_H
-# define PIPEX_H
 
-typedef struct	s_command
-{
-	char *path;
-	char **args;
-}	t_command;
+#ifndef DEV_H
+# define DEV_H
 
-typedef struct	s_pipex_state
-{
-	int			infile_fd;
-	int			outfile_fd;
-	int			argc;
-	int			error;
-	char		**argv;
-	char		**envp;
-	char		**path;
-	t_command	**commands;
-}	t_pipex_state;
+#include "pipex.h"
 
-char	*env_get(t_pipex_state *state, char *env);
-
-int		path_get(t_pipex_state *state);
+void	dev_state_print_path(t_pipex_state *state);
+void	dev_command_print_args(t_command *command);
 
 #endif
