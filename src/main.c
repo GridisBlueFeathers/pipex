@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 11:36:09 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:16:32 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -49,28 +49,25 @@ t_command	*state_feed_command(char **path, char *command_raw)
 
 }
 
-int	path_get(t_pipex_state *state)
+int	state_feed_process_commands(t_pipex_state *state)
 {
-	char	*path_env;
-	char	*path_raw;
+	int	i;
 
-	path_env = env_get(state, "PATH");
-	if (!path_env)
+	state->commands = (t_command *)ft_calloc(state->argc - 3, sizeof(t_command));
+	if (!state->commands)
 		return (0);
-	path_raw = ft_substr(path_env, 5, ft_strlen(path_env));
-	ft_free_n_null((void **)&path_env);
-	if (!path_raw)
-		return (0);
-	state->path = ft_split(path_raw, ':');
-	ft_free_n_null((void **)&path_raw);
-	if (!state->path)
-		return (0);
+	i = 2;
+	while (i < state->argc - 1)
+	{
+
+	}
+	
 	return (1);
 }
 
 void	state_feed(t_pipex_state *state)
 {
-	if (!path_get(state))
+	if (!path_get(state) || !state_feed_process_commands(state))
 		state->error = 1;
 }
 

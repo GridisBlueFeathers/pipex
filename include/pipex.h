@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 11:36:45 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:06:55 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -32,6 +32,6 @@ typedef struct	s_pipex_state
 
 char	*env_get(t_pipex_state *state, char *env);
 
-
+int		path_get(t_pipex_state *state);
 
 #endif
