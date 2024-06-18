@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/06/18 12:28:50 by svereten         ###   ########.fr        #
+#    Updated: 2024/06/18 17:08:09 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -18,6 +18,8 @@ CFLAGS = -Wall -Wextra -Werror
 SRC_FILES = main \
 		   env/env \
 		   path/path \
+		   state/state_feed \
+		   state/state_init \
 
 SRC_DIR = src
 OBJ_DIR = obj
