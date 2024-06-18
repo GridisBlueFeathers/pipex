@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 18:48:41 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:26:42 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -45,6 +45,7 @@ void	state_free(t_pipex_state *state)
 			j++;
 		}
 		ft_free_n_null((void **)&(state->commands[i]->args));
+		ft_free_n_null((void **)&(state->commands[i]->path));
 		ft_free_n_null((void **)&(state->commands[i]));
 		i++;
 	}
@@ -78,11 +79,15 @@ int	state_feed_command_path(t_pipex_state *state, int index)
 		if (!path_dup)
 			return (0);
 		path_arg = ft_strjoin(path_dup, state->commands[index]->args[0]);
-		printf("%s\n", path_arg);
+		if (!access(path_arg, X_OK))
+		{
+			state->commands[index]->path = path_arg;
+			return (1);
+		}
 		ft_free_n_null((void **)&path_arg);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	state_feed_command(t_pipex_state *state, int i)
@@ -105,7 +110,6 @@ int	state_feed_process_commands(t_pipex_state *state)
 	{
 		if (!state_feed_command(state, i))
 			return (0);
-		dev_command_print_args(state->commands[i]);
 		i++;
 	}
 	
@@ -127,7 +131,6 @@ int main(int argc, char **argv, char **envp) {
 	state_feed(&state);
 	if (state.error)
 		return (state_free(&state), 1);
-	dev_state_print_path(&state);
 	state_free(&state);
 
 	/*int fd = open("./infile", O_WRONLY | O_CREAT);

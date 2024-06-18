@@ -6,12 +6,22 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:37:53 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 17:50:16 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:25:44 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 #include "libft.h"
 #include "ft_printf.h"
+
+void	dev_state_print_command_path(t_pipex_state *state)
+{
+	int i = 0;
+	while (state->commands[i])
+	{
+		ft_printf("%s\n", state->commands[i]->path);
+		i++;
+	}
+}
 
 void	dev_state_print_path(t_pipex_state *state)
 {

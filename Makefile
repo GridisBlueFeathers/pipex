@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/06/17 18:36:31 by svereten         ###   ########.fr        #
+#    Updated: 2024/06/18 12:28:50 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -59,6 +59,9 @@ ${LIBFT}:
 
 ${OBJ_DIRS}:
 	mkdir -p $@
+
+norm:
+	norminette ${SRCS}
 
 clean:
 	rm -rf ${OBJ_DIR}
