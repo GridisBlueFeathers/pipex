@@ -6,11 +6,13 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 18:44:01 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:31:17 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
 # define PIPEX_H
+
+# include "libft.h"
 
 typedef struct	s_command
 {
@@ -30,6 +32,8 @@ typedef struct	s_pipex_state
 	char		**path;
 	t_command	**commands;
 }	t_pipex_state;
+
+void	state_feed(t_pipex_state *state);
 
 char	*env_get(t_pipex_state *state, char *env);
 
