@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/18 17:15:10 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:37:57 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -14,6 +14,7 @@
 
 # include "libft.h"
 # include "sys/wait.h"
+# include <sys/types.h>
 
 typedef struct	s_command
 {
@@ -28,6 +29,7 @@ typedef struct	s_pipex_state
 	int			argc;
 	int			error;
 	int			path_length;
+	int			fds[2];
 	char		**argv;
 	char		**envp;
 	char		**path;
