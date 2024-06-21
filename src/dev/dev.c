@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:37:53 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/18 12:25:44 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:16:54 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -31,6 +31,11 @@ void	dev_state_print_path(t_pipex_state *state)
 		ft_printf("%s\n", state->path[i]);
 		i++;
 	}
+}
+
+void	dev_command_print_path(t_command *command)
+{
+	ft_printf("%s\n", command->path);
 }
 
 void	dev_command_print_args(t_command *command)

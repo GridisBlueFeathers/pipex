@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/20 09:47:51 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:54:44 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int	command_exec(t_pipex_state *state, int i)
+/*int	command_exec(t_pipex_state *state, int i)
 {
 	pid_t	pid;
 	int		infile_fd;
@@ -53,9 +53,9 @@ int	command_exec(t_pipex_state *state, int i)
 		exit(0);
 	}
 	return (1);
-}
+}*/
 
-int	command_exec_first(t_pipex_state *state)
+/*int	command_exec_first(t_pipex_state *state)
 {
 	pid_t	pid;
 	int		infile_fd;
@@ -93,6 +93,31 @@ int	command_exec_first(t_pipex_state *state)
 	}
 	return (1);
 
+}*/
+
+void	command_exec(t_pipex_state *state, int index)
+{
+	pid_t	pid;
+	int		fd[2];
+
+	if (pipe(fd) == -1)
+		perror("well");
+	pid = fork();
+	if (pid == -1)
+		perror("well");
+	if (pid == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		if (execve(state->commands[index]->path, state->commands[index]->args, state->envp) == -1)
+			perror("well fuck");
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		waitpid(pid, NULL, 0);
+	}
 }
 
 int main(int argc, char **argv, char **envp) {
@@ -105,42 +130,20 @@ int main(int argc, char **argv, char **envp) {
 	if (state.error)
 		return (state_free(&state), 1);
 
-	command_exec_first(&state);
-	/*pid_t p2 = fork();
-	if (!p2)
+	int infile_fd = open(argv[1], O_RDONLY, 0777);
+	printf("%d\n", infile_fd);
+	int outfile_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	printf("%d\n", outfile_fd);
+	dup2(infile_fd, STDIN_FILENO);
+	int i = 0;
+	while (i < state.argc - 4)
 	{
-		//write(fd[1], content, ft_strlen(content));
-		int fd_infile = open("./infile", O_RDONLY);
-		if (fd_infile == -1)
-		{
-			close(fd[1]);
-			close(fd[0]);
-			exit(1);
-		}
-		dup2(fd_infile, STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd_infile);
-		close(fd[1]);
-		close(fd[0]);
-		execve(state.commands[0]->path, state.commands[0]->args, NULL);
-	}*/
-	/*else
-	{
-		close(fd[0]);
-		close(fd[1]);
-	}*/
-
-	pid_t p1 = fork();
-	if (!p1)
-	{
-		execve(state.commands[1]->path, state.commands[1]->args, NULL);
+		command_exec(&state, i);
+		i++;
 	}
-	/*else
-	{
-		close(fd[0]);
-		close(fd[1]);
-	}*/
-
-	//waitpid(p1, NULL, 0);
+	dup2(outfile_fd, STDOUT_FILENO);
+	if (execve(state.commands[i]->path, state.commands[i]->args, state.envp) == -1)
+		perror("well fuck");
+	
 	state_free(&state);
 }

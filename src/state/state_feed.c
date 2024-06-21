@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:28:59 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/18 14:36:14 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:57:26 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -76,4 +76,3 @@ void	state_feed(t_pipex_state *state)
 	if (!path_get(state) || !state_feed_process_commands(state))
 		state->error = 1;
 }
-
