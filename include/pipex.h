@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/19 17:37:57 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:01:38 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -24,10 +24,9 @@ typedef struct	s_command
 
 typedef struct	s_pipex_state
 {
-	int			infile_fd;
-	int			outfile_fd;
 	int			argc;
 	int			error;
+	int			status;
 	int			path_length;
 	int			fds[2];
 	char		**argv;

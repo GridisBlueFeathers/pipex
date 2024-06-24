@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/24 14:52:30 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:29:43 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -117,7 +117,11 @@ void	command_exec(t_pipex_state *state, int i, int target)
 			dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		if (execve(state->commands[i]->path, state->commands[i]->args, state->envp) == -1)
+		{
 			perror("well fuck");
+			state_free(state);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 	{
@@ -132,12 +136,12 @@ void	command_exec(t_pipex_state *state, int i, int target)
 int main(int argc, char **argv, char **envp) {
 	t_pipex_state	state;
 
-	if (argc == 1)
-		return (0);
+	if (argc < 5)
+		return (1);
 	state_init(&state, argc, argv, envp);
 	state_feed(&state);
 	if (state.error)
-		return (state_free(&state), 1);
+		return (state_free(&state), 127);
 
 	int infile_fd = open(argv[1], O_RDONLY, 0777);
 	dup2(infile_fd, STDIN_FILENO);
@@ -149,8 +153,11 @@ int main(int argc, char **argv, char **envp) {
 		i++;
 	}
 	int outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (outfile_fd == -1)
+		return (126);
 	command_exec(&state, i, outfile_fd);
 	close(outfile_fd);
 	
 	state_free(&state);
+	return (EXIT_SUCCESS);
 }
