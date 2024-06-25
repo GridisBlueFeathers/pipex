@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/25 00:29:43 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:27:32 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -99,6 +99,7 @@ void	command_exec(t_pipex_state *state, int i, int target)
 {
 	pid_t	pid;
 	int		fd[2];
+	int		status;
 
 	if (pipe(fd) == -1)
 		perror("well");
@@ -125,11 +126,16 @@ void	command_exec(t_pipex_state *state, int i, int target)
 	}
 	else
 	{
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("waitpid failed");
+		}
+		if (WIFEXITED(status))
+			state->exit_status = WEXITSTATUS(status);
 		close(fd[1]);
 		if (!target)
 			dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
-		waitpid(pid, NULL, 0);
 	}
 }
 
@@ -159,5 +165,5 @@ int main(int argc, char **argv, char **envp) {
 	close(outfile_fd);
 	
 	state_free(&state);
-	return (EXIT_SUCCESS);
+	return (state.exit_status);
 }
