@@ -6,26 +6,30 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/25 17:23:44 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:51:52 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
 static int	ft_count_words(char const *s, char c)
 {
-	int	i;
-	int	res;
+	int		i;
+	int		res;
+	char	quote;
 
 	i = 0;
 	res = 0;
+	quote = 0;
+	if (s[0] != c && s[0])
+		res++;
+	if (s[0] && (s[0] == '\'' || s[0] == '"'))
+		quote = s[0];
 	while (s[i])
 	{
-		if (s[i] == c && s[i + 1] != c && s[i + 1])
+		if (!quote && s[i] == c && s[i + 1] != c && s[i + 1])
 			res++;
 		i++;
 	}
-	if (s[0] != c && s[0])
-		res++;
 	return (res);
 }
 
@@ -58,7 +62,7 @@ static int	ft_append_to_res(char **res, char const *s, char c, int start)
 	j = 0;
 	while (res[j])
 		j++;
-	res[j] = ft_substr(s, start, len);
+	res[j] = ft_substr(ft_strdup(s), start, len);
 	if (!res[j])
 		return (0);
 	return (1);
