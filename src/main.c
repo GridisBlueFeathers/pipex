@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/25 10:27:32 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:56:49 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -101,6 +101,7 @@ void	command_exec(t_pipex_state *state, int i, int target)
 	int		fd[2];
 	int		status;
 
+	//dev_command_print_args(state->commands[i]);
 	if (pipe(fd) == -1)
 		perror("well");
 	pid = fork();
@@ -150,7 +151,8 @@ int main(int argc, char **argv, char **envp) {
 		return (state_free(&state), 127);
 
 	int infile_fd = open(argv[1], O_RDONLY, 0777);
-	dup2(infile_fd, STDIN_FILENO);
+	if (infile_fd > 0)
+		dup2(infile_fd, STDIN_FILENO);
 	close(infile_fd);
 	int i = 0;
 	while (i < state.argc - 4)
@@ -158,7 +160,7 @@ int main(int argc, char **argv, char **envp) {
 		command_exec(&state, i, 0);
 		i++;
 	}
-	int outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	int outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile_fd == -1)
 		return (126);
 	command_exec(&state, i, outfile_fd);

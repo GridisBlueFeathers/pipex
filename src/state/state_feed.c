@@ -6,10 +6,41 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:28:59 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/21 10:57:26 by svereten         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:56:02 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
+
+static int	state_feed_concat_quote(char **args)
+{
+	int		i;
+	int		mother_arg_i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (!ft_strchr(args[i], '\'')
+		&& !ft_strchr(args[i], '"'))
+		i++;	
+	mother_arg_i = i;
+	if (ft_strchr(args[i], '\'')
+		&& ft_strchr(args[i], '"') > ft_strchr(args[i], '\''))
+		quote = '"';
+	if (ft_strchr(args[i], '"')
+		&& ft_strchr(args[i], '\'') > ft_strchr(args[i], '"'))
+		quote = '\'';
+	while (args[i + 1])
+	{
+		args[mother_arg_i] = ft_strjoin(args[mother_arg_i], " ");
+		args[mother_arg_i] = ft_strjoin(args[mother_arg_i], args[i + 1]);
+		ft_free_n_null((void **)&args[i + 1]);
+		if (ft_strchr(args[mother_arg_i], quote) != ft_strrchr(args[mother_arg_i], quote))
+			break ;
+		i++;
+	}
+	args[mother_arg_i] = ft_substr(args[mother_arg_i], 1, ft_strlen(args[mother_arg_i]) - 2);
+	return (1);
+}
 
 static int	state_feed_command_args(t_pipex_state *state, int i)
 {
@@ -19,6 +50,10 @@ static int	state_feed_command_args(t_pipex_state *state, int i)
 	state->commands[i]->args = ft_split(state->argv[i + 2], ' ');
 	if (!state->commands[i]->args)
 		return (0);
+	if (!ft_strchr(state->argv[i + 2], '"')
+		&& !ft_strchr(state->argv[i + 2], '\''))
+		return (1);
+	state_feed_concat_quote(state->commands[i]->args);
 	return (1);
 }
 
