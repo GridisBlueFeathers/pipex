@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/06/26 16:55:04 by svereten         ###   ########.fr        #
+#    Updated: 2024/06/26 17:07:45 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -76,7 +76,7 @@ ${TESTS_NAME}: ${TESTS_OBJS} ${PIPEX_OBJS} ${LIBFT}
 
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIRS}
-	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} -c $< -o $@
+	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} ${TESTS_INCLUDE} -c $< -o $@
 
 ${LIBFT}:
 	${MAKE} -C ${LIBFT_DIR}
@@ -94,6 +94,7 @@ clean:
 fclean: clean
 	rm -rf ${NAME}
 	rm -rf ${DEV_NAME}
+	rm -rf ${TESTS_NAME}
 	${MAKE} fclean -C ${LIBFT_DIR}
 
 re: fclean all

@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests_args_count.c                                 :+:      :+:    :+:   */
+/*   colors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 15:23:37 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/26 17:08:59 by svereten         ###   ########.fr       */
+/*   Created: 2024/06/26 17:06:11 by svereten          #+#    #+#             */
+/*   Updated: 2024/06/26 17:09:57 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "pipex.h"
-#include "ft_printf.h"
-#include "colors.h"
+#ifndef COLORS_H
+# define COLORS_H
 
-void	test_args_count()
-{
-	ft_printf(RED"hello\n\e[0m"RESET);
-	ft_printf(GREEN"hello\n\e[0m"RESET);
-	args_count("hey", ' ');
+# define RED "\e[0;91m"
+# define GREEN "\e[0;92m"
 
-}
+# define RESET "\e[0m"
+
+#endif
