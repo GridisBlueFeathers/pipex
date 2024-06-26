@@ -1,17 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tests_args_count.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/26 15:54:46 by svereten         ###   ########.fr       */
+/*   Created: 2024/06/26 15:23:37 by svereten          #+#    #+#             */
+/*   Updated: 2024/06/26 16:24:28 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
+#include "ft_printf.h"
 
-int	main(int argc, char **argv, char **envp)
+void	test_args_count()
 {
-	return (pipex(argc, argv, envp));
+	ft_printf("\033[1;31m");
+	ft_printf("hello\n");
+	ft_printf("\033[0m");
+	args_count("hey", ' ');
+
 }

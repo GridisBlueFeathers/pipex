@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/26 15:54:46 by svereten         ###   ########.fr       */
+/*   Created: 2024/06/26 15:23:10 by svereten          #+#    #+#             */
+/*   Updated: 2024/06/26 15:41:56 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "pipex.h"
+#include "tests.h"
 
-int	main(int argc, char **argv, char **envp)
+int main()
 {
-	return (pipex(argc, argv, envp));
+	test_args_count();
 }

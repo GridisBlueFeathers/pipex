@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tests.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/30 15:00:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/26 15:54:46 by svereten         ###   ########.fr       */
+/*   Created: 2024/06/26 15:38:44 by svereten          #+#    #+#             */
+/*   Updated: 2024/06/26 15:40:02 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "pipex.h"
+#ifndef TESTS_H
+# define TESTS_H
 
-int	main(int argc, char **argv, char **envp)
-{
-	return (pipex(argc, argv, envp));
-}
+void	test_args_count();
+
+#endif
