@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/06/26 17:07:45 by svereten         ###   ########.fr        #
+#    Updated: 2024/06/26 18:00:27 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -48,7 +48,8 @@ DEV_OBJS = ${DEV_FILES:%=${OBJ_DIR}/%.o}
 
 TESTS_FILES = ${PIPEX_FILES} \
 			  tests_main \
-			  args/tests_args_count
+			  args/tests_args_count \
+			  tests_utils/test_int_func
 TESTS_SRCS = ${TESTS_FILES:%=${SRC_DIR}/%.c}
 TESTS_OBJS = ${TESTS_FILES:%=${OBJ_DIR}/%.o}
 

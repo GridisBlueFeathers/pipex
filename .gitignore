@@ -8,6 +8,7 @@ obj/
 #add project file
 pipex
 pipex_dev
+pipex_tests
 infile
 infile-extra-thicc
 outfile
