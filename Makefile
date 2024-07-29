@@ -6,12 +6,11 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/07/22 17:36:12 by svereten         ###   ########.fr        #
+#    Updated: 2024/07/29 19:10:10 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
 DEV_NAME = pipex_dev
-TESTS_NAME = pipex_tests
 
 CC = cc
 
@@ -40,8 +39,7 @@ DEV_FILES = dev/dev
 DEV_SRCS = ${DEV_FILES:%=${SRC_DIR}/%.c}
 DEV_OBJS = ${DEV_FILES:%=${OBJ_DIR}/%.o}
 
-ALL_OBJS = ${OBJS} ${DEV_OBJS} ${TESTS_OBJS}
-OBJ_DIRS = $(sort $(dir ${ALL_OBJS}))
+OBJ_DIRS = $(sort $(dir ${OBJS}))
 
 all: ${NAME}
 
@@ -56,6 +54,19 @@ ${LIBFT}:
 
 ${OBJ_DIRS}:
 	mkdir -p $@
+################################################################################
+#
+# Libunit variables
+#
+################################################################################
+
+RUNNER_DIR = run
+TESTS_DIR = tests
+
+#RUNNERS = ${SRCS:%=${RUNNER_DIR}/%_tests}
+RUNNERS = run/args/args_count_tests
+#TESTS_OBJS = ${SRCS:%=${OBJS_DIR}/%_tests.o}
+TESTS_OBJS = obj/args/args_count_tests.o
 
 clean:
 	rm -rf ${OBJ_DIR}
@@ -79,10 +90,21 @@ ${DEV_NAME}: ${OBJS} ${DEV_OBJS} ${LIBFT}
 norm:
 	norminette ${PIPEX_SRC}
 
-runners:
-	@echo "runners"
+################################################################################
+#
+# Libunit rules
+#
+################################################################################
 
-test:
-	@echo "running runners"
+${OBJS_DIR}/%.o: ${TESTS_DIR}/%.c | ${OBJ_DIRS}
+	${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
+
+runners: ${RUNNERS}
+
+${RUNNER_DIR}/%: obj/%.o ${OBJS}
+	@${MAKE} -C libunit ../$@
+
+test: runners
+	@./libunit/run_runners.sh
 
 .PHONY: all dev tests clean fclean re
