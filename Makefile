@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/07/29 19:10:10 by svereten         ###   ########.fr        #
+#    Updated: 2024/07/30 15:40:16 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -25,8 +25,7 @@ LIBFT_DIR = libft
 SRC_DIR = src
 OBJ_DIR = obj
 
-FILES = main \
-	 	env/env \
+FILES = env/env \
 		path/path \
 		state/state_feed \
 		state/state_init \
@@ -41,24 +40,13 @@ DEV_OBJS = ${DEV_FILES:%=${OBJ_DIR}/%.o}
 
 OBJ_DIRS = $(sort $(dir ${OBJS}))
 
-all: ${NAME}
-
-${NAME}: ${OBJS} ${LIBFT}
-	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@
-
-${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIRS}
-	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} ${TESTS_INCLUDE} -c $< -o $@
-
-${LIBFT}:
-	${MAKE} -C ${LIBFT_DIR}
-
-${OBJ_DIRS}:
-	mkdir -p $@
 ################################################################################
 #
 # Libunit variables
 #
 ################################################################################
+
+LIBUNIT_INCLUDE = -I./libunit/include
 
 RUNNER_DIR = run
 TESTS_DIR = tests
@@ -68,6 +56,20 @@ RUNNERS = run/args/args_count_tests
 #TESTS_OBJS = ${SRCS:%=${OBJS_DIR}/%_tests.o}
 TESTS_OBJS = obj/args/args_count_tests.o
 
+all: ${NAME}
+
+${NAME}: ${OBJS} ${SRC_DIR}/main.o ${LIBFT}
+	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@
+
+${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIRS}
+	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} -c $< -o $@
+
+${LIBFT}:
+	${MAKE} -C ${LIBFT_DIR}
+
+${OBJ_DIRS}:
+	mkdir -p $@
+
 clean:
 	rm -rf ${OBJ_DIR}
 	${MAKE} clean -C ${LIBFT_DIR}
@@ -75,7 +77,6 @@ clean:
 fclean: clean
 	rm -rf ${NAME}
 	rm -rf ${DEV_NAME}
-	rm -rf ${TESTS_NAME}
 	${MAKE} fclean -C ${LIBFT_DIR}
 
 re: fclean all
@@ -96,13 +97,14 @@ norm:
 #
 ################################################################################
 
-${OBJS_DIR}/%.o: ${TESTS_DIR}/%.c | ${OBJ_DIRS}
-	${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
+${OBJ_DIR}/%.o: ${TESTS_DIR}/%.c | ${OBJ_DIRS}
+	${CC} ${CFLAGS} ${INCLUDE} ${LIBUNIT_INCLUDE} -c $< -o $@
 
 runners: ${RUNNERS}
+	@echo ${RUNNERS}
 
-${RUNNER_DIR}/%: obj/%.o ${OBJS}
-	@${MAKE} -C libunit ../$@
+${RUNNER_DIR}/%: ${OBJ_DIR}/%.o ${OBJS}
+	${MAKE} -C libunit ../$@
 
 test: runners
 	@./libunit/run_runners.sh
