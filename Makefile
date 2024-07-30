@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/07/30 15:40:16 by svereten         ###   ########.fr        #
+#    Updated: 2024/07/30 15:51:33 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -77,6 +77,7 @@ clean:
 fclean: clean
 	rm -rf ${NAME}
 	rm -rf ${DEV_NAME}
+	rm -rf ${RUNNER_DIR}
 	${MAKE} fclean -C ${LIBFT_DIR}
 
 re: fclean all

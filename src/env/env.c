@@ -6,11 +6,10 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:35:57 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/17 11:36:25 by svereten         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:52:06 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#include "libft.h"
 
 char	*env_get(t_pipex_state *state, char *env)
 {

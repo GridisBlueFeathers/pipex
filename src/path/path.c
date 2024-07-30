@@ -6,11 +6,10 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:06:10 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/25 17:42:05 by svereten         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:52:12 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#include "libft.h"
 
 int	path_get_length(t_pipex_state *state)
 {

@@ -6,13 +6,13 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/26 16:26:18 by svereten         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:49:50 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libft.h"
+# include "libft/libft.h"
 # include "sys/wait.h"
 # include <sys/types.h>
 
