@@ -6,32 +6,11 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/07/30 15:51:15 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:47:20 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
-
-static int	ft_count_words(char const *s, char c)
-{
-	int		i;
-	int		res;
-	char	quote;
-
-	i = 0;
-	res = 0;
-	quote = 0;
-	if (s[0] != c && s[0])
-		res++;
-	if (s[0] && (s[0] == '\'' || s[0] == '"'))
-		quote = s[0];
-	while (s[i])
-	{
-		if (!quote && s[i] == c && s[i + 1] != c && s[i + 1])
-			res++;
-		i++;
-	}
-	return (res);
-}
+#include "pipex.h"
 
 static void	ft_free_split(char **res, int words_amount)
 {
@@ -68,7 +47,7 @@ static int	ft_append_to_res(char **res, char const *s, char c, int start)
 	return (1);
 }
 
-static int	ft_iterate_split(char const *s, char c, char **res, int size)
+static int	iterate_split(char *s, char **res, int size)
 {
 	int	i;
 	int	check;
@@ -77,10 +56,10 @@ static int	ft_iterate_split(char const *s, char c, char **res, int size)
 	check = 1;
 	while (s[i])
 	{
-		if (!i && s[i] != c)
-			check = ft_append_to_res(res, s, c, i);
-		else if (s[i] == c && s[i + 1] != c && s[i + 1])
-			check = ft_append_to_res(res, s, c, i + 1);
+		if (!i && s[i] != ' ')
+			check = ft_append_to_res(res, s, ' ', i);
+		else if (s[i] == ' ' && s[i + 1] != ' ' && s[i + 1])
+			check = ft_append_to_res(res, s, ' ', i + 1);
 		if (!check)
 		{
 			ft_free_split(res, size);
@@ -91,18 +70,16 @@ static int	ft_iterate_split(char const *s, char c, char **res, int size)
 	return (1);
 }
 
-char	**args_split(char const *s, char c)
+char	**args_split(char *s)
 {
 	char	**res;
 	int		words_num;
 
-	if (!s)
-		return (0);
-	words_num = ft_count_words(s, c);
+	if (!s || !args_check_quotes(s))
+		return (NULL);
+	words_num = args_count(s);
 	res = (char **)ft_calloc(words_num + 1, sizeof(char *));
-	if (!res)
-		return (0);
-	if (!ft_iterate_split(s, c, res, words_num))
-		return (0);
+	if (!res && !iterate_split(s, res, words_num))
+		return (NULL);
 	return (res);
 }

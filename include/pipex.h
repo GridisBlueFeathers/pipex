@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/07/30 15:49:50 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:43:05 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -45,6 +45,9 @@ char	*env_get(t_pipex_state *state, char *env);
 
 int		path_get(t_pipex_state *state);
 void	path_free(t_pipex_state *state);
-int		args_count(char const *s, char c);
+
+char	**args_split(char *s);
+int		args_count(char *s);
+int		args_check_quotes(char *arg);
 
 #endif

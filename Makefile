@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/07/30 16:55:28 by svereten         ###   ########.fr        #
+#    Updated: 2024/08/21 13:56:21 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -52,7 +52,8 @@ RUNNER_DIR = run
 TESTS_DIR = tests
 
 #RUNNERS = ${SRCS:%=${RUNNER_DIR}/%_tests}
-RUNNERS = run/args/args_count_tests
+RUNNERS = run/args/args_count_tests \
+		  run/args/args_split_tests 
 #TESTS_OBJS = ${SRCS:%=${OBJS_DIR}/%_tests.o}
 TESTS_OBJS = obj/args/args_count_tests.o
 

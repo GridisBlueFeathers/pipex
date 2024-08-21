@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:06:10 by svereten          #+#    #+#             */
-/*   Updated: 2024/07/30 15:52:12 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/21 13:28:40 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -19,19 +19,6 @@ int	path_get_length(t_pipex_state *state)
 	while (state->path[i])
 		i++;
 	return (i);
-}
-
-void	path_free(t_pipex_state *state)
-{
-	int	i;
-
-	i = 0;
-	while (i < state->path_length)
-	{
-		ft_free_n_null((void **)&(state->path[i]));
-		i++;
-	}
-	ft_free_n_null((void **)&(state->path));
 }
 
 int	path_get(t_pipex_state *state)
@@ -47,7 +34,7 @@ int	path_get(t_pipex_state *state)
 	if (!path_raw)
 		return (0);
 	state->path = ft_split(path_raw, ':');
-	ft_free_n_null((void **)&path_raw);
+	ft_free(PTR, &path_raw);
 	if (!state->path)
 		return (0);
 	state->path_length = path_get_length(state);
