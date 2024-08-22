@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/08/21 16:37:52 by svereten         ###   ########.fr        #
+#    Updated: 2024/08/22 14:55:21 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -59,7 +59,7 @@ TESTS_OBJS = obj/args/args_count_tests.o
 
 all: ${NAME}
 
-${NAME}: ${OBJS} ${SRC_DIR}/main.o ${LIBFT}
+${NAME}: ${OBJS} ${OBJ_DIR}/main.o ${LIBFT}
 	${CC} ${CFLAGS} ${INCLUDE} $^ -o $@
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c | ${OBJ_DIRS}
@@ -83,6 +83,8 @@ fclean: clean
 	${MAKE} fclean -C ${LIBFT_DIR}
 
 re: fclean all
+	${MAKE} re -C ${LIBFT_DIR}
+	${MAKE} re -C libunit
 
 #eval rules end here
 

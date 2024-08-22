@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/21 16:36:23 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:50:44 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
@@ -104,5 +104,6 @@ char	**args_split(char *args)
 	res = (char **)ft_calloc(words_num + 1, sizeof(char *));
 	if (!res && !iterate_split(args, res, words_num))
 		return (NULL);
+	printf("hello\n");
 	return (res);
 }
