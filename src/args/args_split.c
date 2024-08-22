@@ -6,11 +6,12 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/22 14:50:44 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:30:32 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
 #include "pipex.h"
+#include <stdio.h>
 
 static void	ft_free_split(char **res, int words_amount, int check)
 {
@@ -29,7 +30,7 @@ static void	ft_free_split(char **res, int words_amount, int check)
 
 int	args_toggle_quote(char *quote, char cur)
 {
-	if (!*quote && (cur == '\'' && cur == '"'))
+	if (!*quote && (cur == '\'' || cur == '"'))
 	{
 		*quote = cur;
 		return (1);
@@ -58,12 +59,12 @@ static int	ft_append_to_res(char **res, char *args, int start)
 		return (0);
 	while (args[start + i])
 	{
+		if (args_toggle_quote(&quote, args[start + i]))
+			start++;
 		if (!quote && args[start + i] == ' ')
 			break ;
 		if ((!quote && args[start + i] != ' ') || quote)
 			res[j][i] = args[start + i];
-		if (args_toggle_quote(&quote, args[start + i]))
-			start++;
 		i++;
 	}
 	return (1);
@@ -80,10 +81,13 @@ static int	iterate_split(char *args, char **res, int size)
 	quote = 0;
 	while (args[i] && check)
 	{
-		if (!quote && !i && args[i] != ' ')
+		if (!i && args[i] != ' ')
 			check = ft_append_to_res(res, args, i);
 		else if (!quote && args[i] == ' ' && args[i + 1] != ' ' && args[i + 1])
+		{
 			check = ft_append_to_res(res, args, i + 1);
+			printf("%c\n", args[i + 1]);
+		}
 		if (!quote && (args[i] == '\'' || args[i] == '"'))
 			quote = args[i];
 		else if (quote && args[i] == quote)
@@ -102,8 +106,7 @@ char	**args_split(char *args)
 		return (NULL);
 	words_num = args_count(args);
 	res = (char **)ft_calloc(words_num + 1, sizeof(char *));
-	if (!res && !iterate_split(args, res, words_num))
+	if (!res || !iterate_split(args, res, words_num))
 		return (NULL);
-	printf("hello\n");
 	return (res);
 }
