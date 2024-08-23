@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/22 15:30:32 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:51:50 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
@@ -84,10 +84,7 @@ static int	iterate_split(char *args, char **res, int size)
 		if (!i && args[i] != ' ')
 			check = ft_append_to_res(res, args, i);
 		else if (!quote && args[i] == ' ' && args[i + 1] != ' ' && args[i + 1])
-		{
 			check = ft_append_to_res(res, args, i + 1);
-			printf("%c\n", args[i + 1]);
-		}
 		if (!quote && (args[i] == '\'' || args[i] == '"'))
 			quote = args[i];
 		else if (quote && args[i] == quote)

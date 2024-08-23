@@ -12,6 +12,7 @@ void test_case_0()
 	data.exp = exp;
 	data.res = res;
 	assert(STR_ARR_EQUAL, &data);
+	ft_free(STR_ARR, &res);
 }
 
 void test_case_1()
@@ -22,6 +23,7 @@ void test_case_1()
 	data.exp = exp;
 	data.res = res;
 	assert(STR_ARR_EQUAL, &data);
+	ft_free(STR_ARR, &res);
 }
 
 void test_case_2()
@@ -32,6 +34,7 @@ void test_case_2()
 	data.exp = exp;
 	data.res = res;
 	assert(STR_ARR_EQUAL, &data);
+	ft_free(STR_ARR, &res);
 }
 
 void test_case_3()
@@ -42,6 +45,7 @@ void test_case_3()
 	data.exp = exp;
 	data.res = res;
 	assert(STR_ARR_EQUAL, &data);
+	ft_free(STR_ARR, &res);
 }
 
 void test_case_4()
@@ -52,6 +56,7 @@ void test_case_4()
 	data.exp = exp;
 	data.res = res;
 	assert(STR_ARR_EQUAL, &data);
+	ft_free(STR_ARR, &res);
 }
 
 void test_case_5()
@@ -62,6 +67,7 @@ void test_case_5()
 	data.exp = exp;
 	data.res = res;
 	assert(STR_ARR_EQUAL, &data);
+	ft_free(STR_ARR, &res);
 }
 
 int main()
