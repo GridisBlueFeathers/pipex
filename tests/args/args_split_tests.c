@@ -11,6 +11,9 @@ void test_case_0()
 	t_assert_data data;
 	data.exp = exp;
 	data.res = res;
+	data.failed = 0;
+	if (!res)
+		data.failed = 1;
 	assert(STR_ARR_EQUAL, &data);
 	ft_free(STR_ARR, &res);
 }
@@ -22,6 +25,9 @@ void test_case_1()
 	t_assert_data data;
 	data.exp = exp;
 	data.res = res;
+	data.failed = 0;
+	if (!res)
+		data.failed = 1;
 	assert(STR_ARR_EQUAL, &data);
 	ft_free(STR_ARR, &res);
 }
@@ -33,6 +39,9 @@ void test_case_2()
 	t_assert_data data;
 	data.exp = exp;
 	data.res = res;
+	data.failed = 0;
+	if (!res)
+		data.failed = 1;
 	assert(STR_ARR_EQUAL, &data);
 	ft_free(STR_ARR, &res);
 }
@@ -44,6 +53,9 @@ void test_case_3()
 	t_assert_data data;
 	data.exp = exp;
 	data.res = res;
+	data.failed = 0;
+	if (!res)
+		data.failed = 1;
 	assert(STR_ARR_EQUAL, &data);
 	ft_free(STR_ARR, &res);
 }
@@ -55,6 +67,9 @@ void test_case_4()
 	t_assert_data data;
 	data.exp = exp;
 	data.res = res;
+	data.failed = 0;
+	if (!res)
+		data.failed = 1;
 	assert(STR_ARR_EQUAL, &data);
 	ft_free(STR_ARR, &res);
 }
@@ -66,6 +81,9 @@ void test_case_5()
 	t_assert_data data;
 	data.exp = exp;
 	data.res = res;
+	data.failed = 0;
+	if (!res)
+		data.failed = 1;
 	assert(STR_ARR_EQUAL, &data);
 	ft_free(STR_ARR, &res);
 }
