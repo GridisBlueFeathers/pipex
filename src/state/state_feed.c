@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:28:59 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/21 13:32:49 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:53:33 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -43,7 +43,7 @@ static int	state_feed_command_path(t_pipex_state *state, int index)
 			state->commands[index]->path = path_arg;
 			return (1);
 		}
-		ft_free(PTR, &path_arg);
+		ft_free(STR, &path_arg);
 		i++;
 	}
 	return (0);

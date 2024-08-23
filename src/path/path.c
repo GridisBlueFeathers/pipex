@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:06:10 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/21 13:28:40 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:53:21 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -34,7 +34,7 @@ int	path_get(t_pipex_state *state)
 	if (!path_raw)
 		return (0);
 	state->path = ft_split(path_raw, ':');
-	ft_free(PTR, &path_raw);
+	ft_free(STR, &path_raw);
 	if (!state->path)
 		return (0);
 	state->path_length = path_get_length(state);
