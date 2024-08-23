@@ -6,29 +6,14 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 18:14:51 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:21:32 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
 #include "pipex.h"
 #include <stdio.h>
 
-static void	ft_free_split(char **res, int words_amount, int check)
-{
-	int	i;
-
-	if (check)
-		return ;
-	i = 0;
-	while (i < words_amount)
-	{
-		free(res[i]);
-		i++;
-	}
-	free(res);
-}
-
-int	args_toggle_quote(char *quote, char* str, int i)
+static int	args_toggle_quote(char *quote, char *str, int i)
 {
 	if (*quote && str[i] == '\\' && str[i + 1] && str[i + 1] == *quote)
 		return (1);
@@ -45,7 +30,7 @@ int	args_toggle_quote(char *quote, char* str, int i)
 	return (0);
 }
 
-int	args_arg_len(char *args, int start)
+static int	arg_len(char *args, int start)
 {
 	int		res;
 	int		i;
@@ -67,7 +52,7 @@ int	args_arg_len(char *args, int start)
 	return (res);
 }
 
-static int	ft_append_to_res(char **res, char *args, int start)
+static int	arg_append_to_res(char **res, char *args, int start)
 {
 	int		j;
 	int		i;
@@ -78,7 +63,7 @@ static int	ft_append_to_res(char **res, char *args, int start)
 	quote = 0;
 	while (res[j])
 		j++;
-	res[j] = (char *)ft_calloc(args_arg_len(args, start) + 1, sizeof(char));
+	res[j] = (char *)ft_calloc(arg_len(args, start) + 1, sizeof(char));
 	if (!res[j])
 		return (0);
 	while (args[start + i])
@@ -94,7 +79,7 @@ static int	ft_append_to_res(char **res, char *args, int start)
 	return (1);
 }
 
-static int	iterate_split(char *args, char **res, int size)
+static int	iterate_split(char *args, char **res)
 {
 	int		i;
 	int		check;
@@ -106,16 +91,18 @@ static int	iterate_split(char *args, char **res, int size)
 	while (args[i] && check)
 	{
 		if (!i && args[i] != ' ')
-			check = ft_append_to_res(res, args, i);
+			check = arg_append_to_res(res, args, i);
 		else if (!quote && args[i] == ' ' && args[i + 1] != ' ' && args[i + 1])
-			check = ft_append_to_res(res, args, i + 1);
+			check = arg_append_to_res(res, args, i + 1);
 		if (!quote && (args[i] == '\'' || args[i] == '"'))
 			quote = args[i];
 		else if (quote && args[i] == quote)
 			quote = 0;
 		i++;
 	}
-	return (ft_free_split(res, size, check), check);
+	if (!check)
+		ft_free(STR_ARR, &res);
+	return (check);
 }
 
 char	**args_split(char *args)
@@ -127,7 +114,7 @@ char	**args_split(char *args)
 		return (NULL);
 	words_num = args_count(args);
 	res = (char **)ft_calloc(words_num + 1, sizeof(char *));
-	if (!res || !iterate_split(args, res, words_num))
+	if (!res || !iterate_split(args, res))
 		return (NULL);
 	return (res);
 }
