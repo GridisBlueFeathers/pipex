@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 15:51:50 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:53:50 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
@@ -28,14 +28,16 @@ static void	ft_free_split(char **res, int words_amount, int check)
 	free(res);
 }
 
-int	args_toggle_quote(char *quote, char cur)
+int	args_toggle_quote(char *quote, char* str, int i)
 {
-	if (!*quote && (cur == '\'' || cur == '"'))
+	if (*quote && str[i] == '\\' && str[i + 1] && str[i + 1] == *quote)
+		return (1);
+	if (!*quote && (str[i] == '\'' || str[i] == '"'))
 	{
-		*quote = cur;
+		*quote = str[i];
 		return (1);
 	}
-	else if (*quote && cur == *quote)
+	else if (*quote && str[i] == *quote)
 	{
 		*quote = 0;
 		return (1);
@@ -59,7 +61,7 @@ static int	ft_append_to_res(char **res, char *args, int start)
 		return (0);
 	while (args[start + i])
 	{
-		if (args_toggle_quote(&quote, args[start + i]))
+		if (args_toggle_quote(&quote, args, start + i))
 			start++;
 		if (!quote && args[start + i] == ' ')
 			break ;

@@ -88,6 +88,20 @@ void test_case_5()
 	ft_free(STR_ARR, &res);
 }
 
+void test_case_6()
+{
+	char **res = args_split("hello hey\"hey \\\"hey\"hey");
+	char *exp[] = {"hello", "heyhey \"heyhey", NULL};
+	t_assert_data data;
+	data.exp = exp;
+	data.res = res;
+	data.failed = 0;
+	if (!res)
+		data.failed = 1;
+	assert(STR_ARR_EQUAL, &data);
+	ft_free(STR_ARR, &res);
+}
+
 int main()
 {
 	start_up(NULL);
@@ -97,5 +111,6 @@ int main()
 	test(&test_case_3, "args_split(\"hello \"hey hey\"\")");
 	test(&test_case_4, "args_split(\"hello hey\"hey hey\"\")");
 	test(&test_case_5, "args_split(\"hello hey\"hey hey\"hey\")");
+	test(&test_case_6, "args_split(\"hello hey\"hey \\\"hey\"hey\")");
 	teardown(NULL);
 }
