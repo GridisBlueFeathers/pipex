@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:28:59 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 18:17:16 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:25:55 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -16,7 +16,7 @@ static int	state_feed_command_args(t_pipex_state *state, int i)
 	state->commands[i] = (t_command *)ft_calloc(1, sizeof(t_command));
 	if (!state->commands[i])
 		return (0);
-	state->commands[i]->args = ft_split(state->argv[i + 2], ' ');
+	state->commands[i]->args = args_split(state->argv[i + 2]);
 	if (!state->commands[i]->args)
 		return (0);
 	if (!ft_strchr(state->argv[i + 2], '"')
