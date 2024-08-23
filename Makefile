@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/08/22 14:55:21 by svereten         ###   ########.fr        #
+#    Updated: 2024/08/23 18:10:14 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -30,6 +30,7 @@ FILES = env/env \
 		state/state_feed \
 		state/state_init \
 		args/args_count \
+		args/args_split \
 
 SRCS = ${FILES:%=${SRC_DIR}/%.c}
 OBJS = ${FILES:%=${OBJ_DIR}/%.o}

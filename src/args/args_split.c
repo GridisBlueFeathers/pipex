@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 17:53:50 by svereten         ###   ########.fr       */
+/*   Updated: 2024/08/23 18:14:51 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
@@ -45,6 +45,28 @@ int	args_toggle_quote(char *quote, char* str, int i)
 	return (0);
 }
 
+int	args_arg_len(char *args, int start)
+{
+	int		res;
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	res = 0;
+	while (args[start + i])
+	{
+		if (args_toggle_quote(&quote, args, start + i))
+			start++;
+		if (!quote && args[start + i] == ' ')
+			break ;
+		if ((!quote && args[start + i] != ' ') || quote)
+			res++;
+		i++;
+	}
+	return (res);
+}
+
 static int	ft_append_to_res(char **res, char *args, int start)
 {
 	int		j;
@@ -56,7 +78,7 @@ static int	ft_append_to_res(char **res, char *args, int start)
 	quote = 0;
 	while (res[j])
 		j++;
-	res[j] = (char *)ft_calloc(1, 100); // fix this later
+	res[j] = (char *)ft_calloc(args_arg_len(args, start) + 1, sizeof(char));
 	if (!res[j])
 		return (0);
 	while (args[start + i])
