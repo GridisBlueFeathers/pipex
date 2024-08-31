@@ -1,6 +1,7 @@
 #include "pipex.h"
 #include "libunit/test.h"
 #include "libunit/assert.h"
+#include "libunit/group.h"
 
 void test_args_check_quotes_0()
 {
