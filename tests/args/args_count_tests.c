@@ -2,6 +2,7 @@
 #include "libunit/test.h"
 #include "libunit/assert.h"
 #include "libunit/group.h"
+#include "libunit/libunit.h"
 
 void test_args_check_quotes_0()
 {
@@ -171,22 +172,24 @@ void test_case_10()
 
 int main()
 {
-	test(&test_args_check_quotes_0, "args_check_quotes(\"\")");
-	test(&test_args_check_quotes_1, "args_check_quotes(\"\\\"\\\"\")");
-	test(&test_args_check_quotes_2, "args_check_quotes(\"''\")");
-	test(&test_args_check_quotes_3, "args_check_quotes(\"\\\"'\\\"\")");
-	test(&test_args_check_quotes_4, "args_check_quotes(\"'\\\"'\")");
-	test(&test_args_check_quotes_5, "args_check_quotes(\"\\\"'\\\"'\")");
-	test(&test_args_check_quotes_6, "args_check_quotes(\"'\\\"'\\\"\")");
-	test(&test_empty_string, "args_count(\"\")");
-	test(&test_one_word_no_spaces_no_quotes_string, "args_count(\"hello\")");
-	test(&test_two_words_no_quotes_string, "args_count(\"hello there\")");
-	test(&test_two_words_one_double_quotes_string, "args_count(\"hello \"there\"\")");
-	test(&test_case_4, "args_count(\"hello \"there you\"\")");
-	test(&test_case_5, "args_count(\"hello \"there\"you\")");
-	test(&test_case_6, "args_count(\"hello \"there \"you\")");
-	test(&test_case_7, "args_count(\"hello \"there \"you there\")");
-	test(&test_case_8, "args_count(\"hello \"there \"you \"there\"\")");
-	test(&test_case_9, "args_count(\"hello \"there \"you \"there you\"\")");
-	test(&test_case_10, "args_count(\"hello hello\"there \"you \"there you\"\")");
+	start_up(NULL);
+	group_add_test("args_check_quotes(char *s)", "args_check_quotes(\"\")", &test_args_check_quotes_0);
+	group_add_test("args_check_quotes(char *s)", "args_check_quotes(\"\\\"\\\"\")", &test_args_check_quotes_1);
+	group_add_test("args_check_quotes(char *s)", "args_check_quotes(\"''\")", &test_args_check_quotes_2);
+	group_add_test("args_check_quotes(char *s)", "args_check_quotes(\"\\\"'\\\"\")", &test_args_check_quotes_3);
+	group_add_test("args_check_quotes(char *s)", "args_check_quotes(\"'\\\"'\")", &test_args_check_quotes_4);
+	group_add_test("args_check_quotes(char *s)", "args_check_quotes(\"\\\"'\\\"'\")", &test_args_check_quotes_5);
+	group_add_test("args_check_quotes(char *s)", "args_check_quotes(\"'\\\"'\\\"\")", &test_args_check_quotes_6);
+	group_add_test("args_count(char *s)", "args_count(\"\")", &test_empty_string);
+	group_add_test("args_count(char *s)", "args_count(\"hello\")", &test_one_word_no_spaces_no_quotes_string);
+	group_add_test("args_count(char *s)", "args_count(\"hello there\")", &test_two_words_no_quotes_string);
+	group_add_test("args_count(char *s)", "args_count(\"hello \"there\"\")", &test_two_words_one_double_quotes_string);
+	group_add_test("args_count(char *s)", "args_count(\"hello \"there you\"\")", &test_case_4);
+	group_add_test("args_count(char *s)", "args_count(\"hello \"there\"you\")", &test_case_5);
+	group_add_test("args_count(char *s)", "args_count(\"hello \"there \"you\")", &test_case_6);
+	group_add_test("args_count(char *s)", "args_count(\"hello \"there \"you there\")", &test_case_7);
+	group_add_test("args_count(char *s)", "args_count(\"hello \"there \"you \"there\"\")", &test_case_8);
+	group_add_test("args_count(char *s)", "args_count(\"hello \"there \"you \"there you\"\")", &test_case_9);
+	group_add_test("args_count(char *s)", "args_count(\"hello hello\"there \"you \"there you\"\")", &test_case_10);
+	teardown(NULL);
 }

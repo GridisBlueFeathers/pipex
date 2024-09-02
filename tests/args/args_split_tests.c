@@ -3,6 +3,7 @@
 #include "libunit/test.h"
 #include "libunit/assert.h"
 #include "libunit/libunit.h"
+#include "libunit/group.h"
 
 void test_case_0()
 {
@@ -105,12 +106,12 @@ void test_case_6()
 int main()
 {
 	start_up(NULL);
-	test(&test_case_0, "args_split(\"hello\")");
-	test(&test_case_1, "args_split(\"hello there\")");
-	test(&test_case_2, "args_split(\"hello \"there\"\")");
-	test(&test_case_3, "args_split(\"hello \"hey hey\"\")");
-	test(&test_case_4, "args_split(\"hello hey\"hey hey\"\")");
-	test(&test_case_5, "args_split(\"hello hey\"hey hey\"hey\")");
-	test(&test_case_6, "args_split(\"hello hey\"hey \\\"hey\"hey\")");
+	group_add_test("args_split(char *args)",  "args_split(\"hello\")", &test_case_0);
+	group_add_test("args_split(char *args)",  "args_split(\"hello there\")", &test_case_1);
+	group_add_test("args_split(char *args)",  "args_split(\"hello \"there\"\")", &test_case_2);
+	group_add_test("args_split(char *args)",  "args_split(\"hello \"hey hey\"\")", &test_case_3);
+	group_add_test("args_split(char *args)",  "args_split(\"hello hey\"hey hey\"\")", &test_case_4);
+	group_add_test("args_split(char *args)",  "args_split(\"hello hey\"hey hey\"hey\")", &test_case_5);
+	group_add_test("args_split(char *args)",  "args_split(\"hello hey\"hey \\\"hey\"hey\")", &test_case_6);
 	teardown(NULL);
 }
