@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 18:39:44 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:18:30 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -129,7 +129,6 @@ void	command_exec(t_pipex_state *state, int i, int target)
 		{
 			perror("waitpid failed");
 		}
-		printf("%d\n", status);
 		if (WIFEXITED(status))
 			state->exit_status = WEXITSTATUS(status);
 		close(fd[1]);
@@ -148,8 +147,9 @@ int main(int argc, char **argv, char **envp) {
 	state_feed(&state);
 	if (state.error)
 		return (state_free(&state), 127);
-
-	int infile_fd = open(argv[1], O_RDONLY, 0777);
+	state_free(&state);
+	return 0;
+	int infile_fd = open(argv[1], O_RDONLY);
 	if (infile_fd > 0)
 		dup2(infile_fd, STDIN_FILENO);
 	close(infile_fd);

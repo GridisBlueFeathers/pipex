@@ -6,12 +6,15 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:06:10 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 16:53:21 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:29:33 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 
-int	path_get_length(t_pipex_state *state)
+/**
+ * Get's amount of pathes in PATH variable
+ */
+static int	path_get_length(t_pipex_state *state)
 {
 	int	i;
 
@@ -21,6 +24,9 @@ int	path_get_length(t_pipex_state *state)
 	return (i);
 }
 
+/**
+ * Gets PATH environment variable and splits it in an array of strings
+ */
 int	path_get(t_pipex_state *state)
 {
 	char	*path_env;
@@ -32,19 +38,19 @@ int	path_get(t_pipex_state *state)
 		return (0);
 	path_raw = ft_substr(path_env, 5, ft_strlen(path_env));
 	if (!path_raw)
-		return (0);
+		return (ft_free(STR, &path_env), 0);
 	state->path = ft_split(path_raw, ':');
 	ft_free(STR, &path_raw);
 	if (!state->path)
-		return (0);
+		return (ft_free(STR, &path_env), 0);
 	state->path_length = path_get_length(state);
 	i = 0;
 	while (state->path[i])
 	{
 		state->path[i] = ft_strjoin(state->path[i], "/");
 		if (!state->path[i])
-			return (0);
+			return (ft_free(STR, &path_env), 0);
 		i++;
 	}
-	return (1);
+	return (ft_free(STR, &path_env), 1);
 }

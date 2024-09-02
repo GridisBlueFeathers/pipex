@@ -6,11 +6,14 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 17:00:45 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 18:42:47 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:16:35 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 
+/**
+ * Initialises state variables and sets state argc, argv and envp
+ */
 void	state_init(t_pipex_state *s, int c, char **v, char **e)
 {
 	s->path = NULL;
@@ -22,6 +25,9 @@ void	state_init(t_pipex_state *s, int c, char **v, char **e)
 	s->error = 0;
 }
 
+/**
+ * Frees allocated fields of state
+ */
 void	state_free(t_pipex_state *state)
 {
 	int	i;

@@ -6,11 +6,16 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:28:59 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 18:25:55 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:16:07 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 
+/**
+ * Allocates command struct
+ *
+ * Splits and puts arguments to struct field
+ */
 static int	state_feed_command_args(t_pipex_state *state, int i)
 {
 	state->commands[i] = (t_command *)ft_calloc(1, sizeof(t_command));
@@ -19,12 +24,16 @@ static int	state_feed_command_args(t_pipex_state *state, int i)
 	state->commands[i]->args = args_split(state->argv[i + 2]);
 	if (!state->commands[i]->args)
 		return (0);
-	if (!ft_strchr(state->argv[i + 2], '"')
-		&& !ft_strchr(state->argv[i + 2], '\''))
-		return (1);
 	return (1);
 }
 
+/**
+ * Checks if first command argument is executable
+ *
+ * True: puts it to command path
+ *
+ * False: checks if executable could be found in PATH directories
+ */
 static int	state_feed_command_path(t_pipex_state *state, int index)
 {
 	char	*path_arg;
@@ -32,6 +41,11 @@ static int	state_feed_command_path(t_pipex_state *state, int index)
 	int		i;
 
 	i = 0;
+	if (!access(state->commands[index]->args[0], X_OK))
+	{
+		state->commands[index]->path = state->commands[index]->args[0];
+		return (1);
+	}
 	while (state->path[i])
 	{
 		path_dup = ft_strdup(state->path[i]);
@@ -49,6 +63,9 @@ static int	state_feed_command_path(t_pipex_state *state, int index)
 	return (0);
 }
 
+/**
+ * Processes arguments and PATH variable to get commands
+ */
 static int	state_feed_command(t_pipex_state *state, int i)
 {
 	if (!state_feed_command_args(state, i)
@@ -57,6 +74,13 @@ static int	state_feed_command(t_pipex_state *state, int i)
 	return (1);
 }
 
+/**
+ * Allocates array of commands structs
+ *
+ * Runs allocation and processing function for each command
+ *
+ * NULL terminated
+ */
 static int	state_feed_process_commands(t_pipex_state *state)
 {
 	int		i;
@@ -76,6 +100,9 @@ static int	state_feed_process_commands(t_pipex_state *state)
 	return (1);
 }
 
+/**
+ * Processes arguments and creates commands out of arguments
+ */
 void	state_feed(t_pipex_state *state)
 {
 	if (!path_get(state) || !state_feed_process_commands(state))
