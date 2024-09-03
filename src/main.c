@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/02 17:18:30 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/03 14:50:07 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -99,12 +99,11 @@ void	command_exec(t_pipex_state *state, int i, int target)
 	int		fd[2];
 	int		status;
 
-	//dev_command_print_args(state->commands[i]);
 	if (pipe(fd) == -1)
-		perror("well");
+		perror("pipex");
 	pid = fork();
 	if (pid == -1)
-		perror("well");
+		perror("pipex");
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -118,7 +117,7 @@ void	command_exec(t_pipex_state *state, int i, int target)
 		close(fd[1]);
 		if (execve(state->commands[i]->path, state->commands[i]->args, state->envp) == -1)
 		{
-			perror("well fuck");
+			perror("pipex");
 			state_free(state);
 			exit(EXIT_FAILURE);
 		}
@@ -126,9 +125,7 @@ void	command_exec(t_pipex_state *state, int i, int target)
 	else
 	{
 		if (waitpid(pid, &status, 0) == -1)
-		{
-			perror("waitpid failed");
-		}
+			perror("pipex");
 		if (WIFEXITED(status))
 			state->exit_status = WEXITSTATUS(status);
 		close(fd[1]);
@@ -136,6 +133,26 @@ void	command_exec(t_pipex_state *state, int i, int target)
 			dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
+}
+
+int	state_commands_run(t_pipex_state *state)
+{
+	int infile_fd = open(state->argv[1], O_RDONLY);
+	if (infile_fd > 0)
+		dup2(infile_fd, STDIN_FILENO);
+	close(infile_fd);
+	int i = 0;
+	while (i < state->argc - 4)
+	{
+		command_exec(state, i, 0);
+		i++;
+	}
+	int outfile_fd = open(state->argv[state->argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (outfile_fd == -1)
+		return (state_free(state), 126);
+	command_exec(state, i, outfile_fd);
+	close(outfile_fd);
+	return (state_free(state), state->exit_status);
 }
 
 int main(int argc, char **argv, char **envp) {
@@ -147,24 +164,5 @@ int main(int argc, char **argv, char **envp) {
 	state_feed(&state);
 	if (state.error)
 		return (state_free(&state), 127);
-	state_free(&state);
-	return 0;
-	int infile_fd = open(argv[1], O_RDONLY);
-	if (infile_fd > 0)
-		dup2(infile_fd, STDIN_FILENO);
-	close(infile_fd);
-	int i = 0;
-	while (i < state.argc - 4)
-	{
-		command_exec(&state, i, 0);
-		i++;
-	}
-	int outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (outfile_fd == -1)
-		return (126);
-	command_exec(&state, i, outfile_fd);
-	close(outfile_fd);
-	
-	state_free(&state);
-	return (state.exit_status);
+	return (state_commands_run(&state));
 }
