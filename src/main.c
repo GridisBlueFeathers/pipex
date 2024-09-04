@@ -6,11 +6,11 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/04 15:12:31 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:08:09 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#include "dev.h"
+#include "libft/ft_printf.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -117,9 +117,9 @@ void	command_exec(t_pipex_state *state, int i, int target)
 		close(fd[1]);
 		if (execve(state->commands[i]->path, state->commands[i]->args, state->envp) == -1)
 		{
-			perror("pipex");
+			ft_dprintf(STDERR_FILENO, "pipex: command not found: %s", state->commands[i]->path);
 			state_free(state);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 	}
 	else
