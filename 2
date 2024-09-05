@@ -6,11 +6,12 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/05 17:51:04 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:06:52 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 #include "libft/ft_printf.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -50,6 +51,7 @@ void	cmd_exec(t_pipex_state *state, int i, int target)
 {
 	pid_t	pid;
 	int		fd[2];
+	int		status;
 
 	if (pipe(fd) == -1)
 		perror("pipex");
@@ -61,6 +63,7 @@ void	cmd_exec(t_pipex_state *state, int i, int target)
 	else
 	{
 		state->last_pid = pid;
+		(void)status;
 		close(fd[1]);
 		if (!target)
 			dup2(fd[0], STDIN_FILENO);
@@ -68,25 +71,38 @@ void	cmd_exec(t_pipex_state *state, int i, int target)
 	}
 }
 
+void	state_get_in_out_fd(t_pipex_state *state)
+{
+	int	out_arg;
+
+	out_arg = state->argc - 1;
+	state->in_fd = open(state->argv[1], O_RDONLY);
+	state->out_fd = open(state->argv[out_arg])
+
+}
+
 int	state_cmds_run(t_pipex_state *state)
 {
 	int	status;
 	int	i;
+	int	infile_fd;
+	int	out_fd;
 
-	state_fd_get_in_out(state);
-	if (state->in_fd > 0)
-		dup2(state->in_fd, STDIN_FILENO);
-	close(state->in_fd);
+	infile_fd = open(state->argv[1], O_RDONLY);
+	if (infile_fd > 0)
+		dup2(infile_fd, STDIN_FILENO);
+	close(infile_fd);
 	i = 0;
 	while (i < state->argc - 4)
 	{
 		cmd_exec(state, i, 0);
 		i++;
 	}
-	if (state->out_fd == -1)
+	out_fd = open(state->argv[state->argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (out_fd == -1)
 		return (state_free(state), 126);
-	cmd_exec(state, i, state->out_fd);
-	close(state->out_fd);
+	cmd_exec(state, i, out_fd);
+	close(out_fd);
 	if (waitpid(state->last_pid, &status, 0) == -1)
 		perror("pipex");
 	if (WIFEXITED(status))
@@ -94,8 +110,7 @@ int	state_cmds_run(t_pipex_state *state)
 	return (state_free(state), state->exit_status);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
+int main(int argc, char **argv, char **envp) {
 	t_pipex_state	state;
 
 	if (argc < 5)

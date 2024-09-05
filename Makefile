@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/08/23 18:10:14 by svereten         ###   ########.fr        #
+#    Updated: 2024/09/05 18:33:42 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -29,7 +29,10 @@ FILES = env/env \
 		path/path \
 		state/state_feed \
 		state/state_init \
-		args/args_count \
+		state/state_fd \
+		cmds \
+		cmd \
+		args/args \
 		args/args_split \
 
 SRCS = ${FILES:%=${SRC_DIR}/%.c}
@@ -53,7 +56,7 @@ RUNNER_DIR = run
 TESTS_DIR = tests
 
 #RUNNERS = ${SRCS:%=${RUNNER_DIR}/%_tests}
-RUNNERS = run/args/args_count_tests \
+RUNNERS = run/args/args_tests \
 		  run/args/args_split_tests 
 #TESTS_OBJS = ${SRCS:%=${OBJS_DIR}/%_tests.o}
 TESTS_OBJS = obj/args/args_count_tests.o
@@ -95,7 +98,7 @@ ${DEV_NAME}: ${OBJS} ${DEV_OBJS} ${LIBFT}
 	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} $^ -o $@
 
 norm:
-	norminette ${SRCS}
+	norminette ${SRCS} src/main.c
 
 ################################################################################
 #

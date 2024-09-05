@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.h                                           :+:      :+:    :+:   */
+/*   state_fd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 17:06:11 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/26 17:09:57 by svereten         ###   ########.fr       */
+/*   Created: 2024/09/05 16:14:04 by svereten          #+#    #+#             */
+/*   Updated: 2024/09/05 16:15:21 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef COLORS_H
-# define COLORS_H
+#include "pipex.h"
 
-# define RED "\e[0;91m"
-# define GREEN "\e[0;92m"
+void	state_fd_get_in_out(t_pipex_state *s)
+{
+	int	out_arg;
 
-# define RESET "\e[0m"
+	out_arg = s->argc - 1;
+	s->in_fd = open(s->argv[1], O_RDONLY);
+	s->out_fd = open(s->argv[out_arg], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+}
 
-#endif

@@ -6,12 +6,11 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/23 18:21:32 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:49:20 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
 #include "pipex.h"
-#include <stdio.h>
 
 static int	args_toggle_quote(char *quote, char *str, int i)
 {
@@ -79,7 +78,7 @@ static int	arg_append_to_res(char **res, char *args, int start)
 	return (1);
 }
 
-static int	iterate_split(char *args, char **res)
+static int	args_iterate_split(char *args, char **res)
 {
 	int		i;
 	int		check;
@@ -114,7 +113,7 @@ char	**args_split(char *args)
 		return (NULL);
 	words_num = args_count(args);
 	res = (char **)ft_calloc(words_num + 1, sizeof(char *));
-	if (!res || !iterate_split(args, res))
+	if (!res || !args_iterate_split(args, res))
 		return (NULL);
 	return (res);
 }
