@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/21 14:43:05 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:42:29 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -28,6 +28,7 @@ typedef struct	s_pipex_state
 	int			error;
 	int			exit_status;
 	int			path_length;
+	pid_t		last_pid;
 	int			fds[2];
 	char		**argv;
 	char		**envp;

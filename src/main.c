@@ -6,13 +6,14 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/04 17:08:09 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:48:55 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 #include "libft/ft_printf.h"
 #include <fcntl.h>
 #include <stdio.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 /*int	command_exec(t_pipex_state *state, int i)
@@ -117,17 +118,19 @@ void	command_exec(t_pipex_state *state, int i, int target)
 		close(fd[1]);
 		if (execve(state->commands[i]->path, state->commands[i]->args, state->envp) == -1)
 		{
-			ft_dprintf(STDERR_FILENO, "pipex: command not found: %s", state->commands[i]->path);
+			ft_dprintf(STDERR_FILENO, "pipex: command not found: %s\n", state->commands[i]->path);
 			state_free(state);
 			exit(127);
 		}
 	}
 	else
 	{
-		if (waitpid(pid, &status, 0) == -1)
+		/*if (waitpid(pid, &status, 0) == -1)
 			perror("pipex");
 		if (WIFEXITED(status))
-			state->exit_status = WEXITSTATUS(status);
+			state->exit_status = WEXITSTATUS(status);*/
+		state->last_pid = pid;
+		(void)status;
 		close(fd[1]);
 		if (!target)
 			dup2(fd[0], STDIN_FILENO);
@@ -137,6 +140,8 @@ void	command_exec(t_pipex_state *state, int i, int target)
 
 int	state_commands_run(t_pipex_state *state)
 {
+	int	status;
+
 	int infile_fd = open(state->argv[1], O_RDONLY);
 	if (infile_fd > 0)
 		dup2(infile_fd, STDIN_FILENO);
@@ -152,6 +157,10 @@ int	state_commands_run(t_pipex_state *state)
 		return (state_free(state), 126);
 	command_exec(state, i, outfile_fd);
 	close(outfile_fd);
+	if (waitpid(state->last_pid, &status, 0) == -1)
+		perror("pipex");
+	if (WIFEXITED(status))
+		state->exit_status = WEXITSTATUS(status);
 	return (state_free(state), state->exit_status);
 }
 
