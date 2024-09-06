@@ -1,15 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args_count.c                                       :+:      :+:    :+:   */
+/*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:19:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/08/21 15:45:42 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:54:32 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "pipex.h"
+
+/**
+ * Checks if all quotes in arguments are closed
+ */
 int	args_check_quotes(char *arg)
 {
 	int		s_quote_count;
@@ -38,26 +43,42 @@ int	args_check_quotes(char *arg)
 	return (1);
 }
 
-int	args_count(char *s)
+/**
+ * Increments res and checks if res overflows, sets check to 0 if overflows
+ */
+static void	args_count_increment_res(size_t *res, int *check)
 {
-	int		i;
-	int		res;
-	char	quote;
+	size_t	prev;
+
+	prev = *res;
+	(*res)++;
+	if (prev > *res)
+		*check = 0;
+}
+
+/**
+ * Returns amount of arguments in command
+ */
+size_t	args_count(char *s, int *check)
+{
+	int			i;
+	size_t		res;
+	char		quote;
 
 	i = 0;
 	res = 0;
 	quote = 0;
 	if (s[0] != ' ' && s[0])
-		res++;
+		args_count_increment_res(&res, check);
 	if (s[0] && (s[0] == '\'' || s[0] == '"'))
 	{
 		quote = s[0];
-		res++;
+		args_count_increment_res(&res, check);
 	}
 	while (s[i])
 	{
 		if (!quote && s[i] == ' ' && s[i + 1] != ' ' && s[i + 1])
-			res++;
+			args_count_increment_res(&res, check);
 		if (!quote && i && (s[i] == '\'' || s[i] == '"'))
 			quote = s[i];
 		else if (quote && i && s[i] == quote)

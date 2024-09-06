@@ -6,27 +6,19 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/05 17:51:04 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:28:17 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 #include "libft/ft_printf.h"
-#include <stdio.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 void	cmd_exec_handle_child_exit(t_pipex_state *s, int i)
 {
-	char	*error_msg;
-
-	error_msg = ft_strdup("pipex: command not found: %s\n");
-	if (!error_msg)
-	{
-		state_free(s);
-		exit(127);
-	}
-	ft_dprintf(STDERR_FILENO, error_msg, s->cmds[i]->path);
-	free(error_msg);
+	ft_dprintf(
+		STDERR_FILENO,
+		"pipex: command not found: %s\n",
+		s->cmds[i]->path
+		);
 	state_free(s);
 	exit(127);
 }

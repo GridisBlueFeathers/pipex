@@ -6,12 +6,18 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/05 17:49:20 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:10:48 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
 #include "pipex.h"
 
+/**
+ * Checks and toggles quote if required, takes into account escaped quotes
+ *
+ * Returns 1 on backslash in case of escaped quotes to not put backslash itself
+ * into the memory
+ */
 static int	args_toggle_quote(char *quote, char *str, int i)
 {
 	if (*quote && str[i] == '\\' && str[i + 1] && str[i + 1] == *quote)
@@ -29,6 +35,9 @@ static int	args_toggle_quote(char *quote, char *str, int i)
 	return (0);
 }
 
+/**
+ * Counts the length of an argument taking quotes into account
+ */
 static int	arg_len(char *args, int start)
 {
 	int		res;
@@ -51,6 +60,11 @@ static int	arg_len(char *args, int start)
 	return (res);
 }
 
+
+/**
+ * Allocates and appends to res new string, then copies content from initial
+ * string
+ */
 static int	arg_append_to_res(char **res, char *args, int start)
 {
 	int		j;
@@ -78,6 +92,9 @@ static int	arg_append_to_res(char **res, char *args, int start)
 	return (1);
 }
 
+/**
+ * Iterates over split and initiates appending to res in correct places
+ */
 static int	args_iterate_split(char *args, char **res)
 {
 	int		i;
@@ -104,14 +121,23 @@ static int	args_iterate_split(char *args, char **res)
 	return (check);
 }
 
+/**
+ * Splits agruments string into an array of strings taking quotes into account
+ *
+ * Protectet against: NULL, not properly closed quotes, empty strings and
+ * if amount of arguments will overflow size_t
+ */
 char	**args_split(char *args)
 {
 	char	**res;
-	int		words_num;
+	size_t	words_num;
+	int		check;
 
 	if (!args || !args_check_quotes(args))
 		return (NULL);
-	words_num = args_count(args);
+	words_num = args_count(args, &check);
+	if (!words_num || !check)
+		return (NULL);
 	res = (char **)ft_calloc(words_num + 1, sizeof(char *));
 	if (!res || !args_iterate_split(args, res))
 		return (NULL);
