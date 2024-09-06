@@ -62,112 +62,211 @@ void test_args_check_quotes_6()
 
 void test_empty_string()
 {
-	int res = args_count("");
-	int exp = 0;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("", &check_res);
+	int fun_exp = 0;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_one_word_no_spaces_no_quotes_string()
 {
-	int res = args_count("hello");
-	int exp = 1;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello", &check_res);
+	int fun_exp = 1;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_two_words_no_quotes_string()
 {
-	int res = args_count("hello there");
-	int exp = 2;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello there", &check_res);
+	int fun_exp = 2;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_two_words_one_double_quotes_string()
 {
-	int res = args_count("hello \"there\"");
-	int exp = 2;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello \"there\"", &check_res);
+	int fun_exp = 2;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_case_4()
 {
-	int res = args_count("hello \"there you\"");
-	int exp = 2;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello \"there you\"", &check_res);
+	int fun_exp = 2;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_case_5()
 {
-	int res = args_count("hello \"there\"you");
-	int exp = 2;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello \"there\"you", &check_res);
+	int fun_exp = 2;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_case_6()
 {
-	int res = args_count("hello \"there \"you");
-	int exp = 2;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello \"there \"you", &check_res);
+	int fun_exp = 2;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_case_7()
 {
-	int res = args_count("hello \"there \"you there");
-	int exp = 3;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello \"there \"you there", &check_res);
+	int fun_exp = 3;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_case_8()
 {
-	int res = args_count("hello \"there \"you \"there\"");
-	int exp = 3;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello \"there \"you \"there\"", &check_res);
+	int fun_exp = 3;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_case_9()
 {
-	int res = args_count("hello \"there \"you \"there you\"");
-	int exp = 3;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello \"there \"you \"there you\"", &check_res);
+	int fun_exp = 3;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 void test_case_10()
 {
-	int res = args_count("hello hello\"there \"you \"there you\"");
-	int exp = 3;
+	int check_res;
+	check_res = 1;
+	int fun_res = args_count("hello hello\"there \"you \"there you\"", &check_res);
+	int fun_exp = 3;
+
 	t_assert_data data;
-	data.exp = &exp;
-	data.res = &res;
+	data.exp = &fun_exp;
+	data.res = &fun_res;
 	assert(INT_EQUAL, &data);
+
+	int check_exp = 1;
+	t_assert_data data2;
+	data2.exp = &check_exp;
+	data2.res = &check_res;
+	assert(INT_EQUAL, &data2);
 }
 
 int main()

@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/09/05 18:33:42 by svereten         ###   ########.fr        #
+#    Updated: 2024/09/06 18:45:30 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -107,7 +107,7 @@ norm:
 ################################################################################
 
 ${OBJ_DIR}/%.o: ${TESTS_DIR}/%.c | ${OBJ_DIRS}
-	${CC} ${CFLAGS} ${INCLUDE} ${LIBUNIT_INCLUDE} -c $< -o $@
+	${CC} ${CFLAGS} -g ${INCLUDE} ${LIBUNIT_INCLUDE} -c $< -o $@
 
 runners: ${RUNNERS}
 	@echo ${RUNNERS}

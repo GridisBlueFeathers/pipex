@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/06 14:10:48 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:02:55 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
@@ -38,10 +38,10 @@ static int	args_toggle_quote(char *quote, char *str, int i)
 /**
  * Counts the length of an argument taking quotes into account
  */
-static int	arg_len(char *args, int start)
+static int	arg_len(char *args, size_t start, int *check)
 {
-	int		res;
-	int		i;
+	size_t	res;
+	size_t	i;
 	char	quote;
 
 	i = 0;
@@ -50,12 +50,12 @@ static int	arg_len(char *args, int start)
 	while (args[start + i])
 	{
 		if (args_toggle_quote(&quote, args, start + i))
-			start++;
+			ft_size_t_increment_check(&start, check);
 		if (!quote && args[start + i] == ' ')
 			break ;
 		if ((!quote && args[start + i] != ' ') || quote)
-			res++;
-		i++;
+			ft_size_t_increment_check(&res, check);
+		ft_size_t_increment_check(&i, check);
 	}
 	return (res);
 }
@@ -65,10 +65,10 @@ static int	arg_len(char *args, int start)
  * Allocates and appends to res new string, then copies content from initial
  * string
  */
-static int	arg_append_to_res(char **res, char *args, int start)
+static int	arg_append_to_res(char **res, char *args, size_t start, int *check)
 {
 	int		j;
-	int		i;
+	size_t	i;
 	char	quote;
 
 	i = 0;
@@ -76,20 +76,20 @@ static int	arg_append_to_res(char **res, char *args, int start)
 	quote = 0;
 	while (res[j])
 		j++;
-	res[j] = (char *)ft_calloc(arg_len(args, start) + 1, sizeof(char));
-	if (!res[j])
-		return (0);
-	while (args[start + i])
+	res[j] = (char *)ft_calloc(arg_len(args, start, check) + 1, sizeof(char));
+	if (!res[j] || !*check)
+		return (ft_free(STR, &res[j]), 0);
+	while (args[start + i] && *check)
 	{
 		if (args_toggle_quote(&quote, args, start + i))
-			start++;
+			ft_size_t_increment_check(&start, check);
 		if (!quote && args[start + i] == ' ')
 			break ;
 		if ((!quote && args[start + i] != ' ') || quote)
 			res[j][i] = args[start + i];
-		i++;
+		ft_size_t_increment_check(&i, check);
 	}
-	return (1);
+	return (*check);
 }
 
 /**
@@ -107,9 +107,9 @@ static int	args_iterate_split(char *args, char **res)
 	while (args[i] && check)
 	{
 		if (!i && args[i] != ' ')
-			check = arg_append_to_res(res, args, i);
+			check = arg_append_to_res(res, args, i, &check);
 		else if (!quote && args[i] == ' ' && args[i + 1] != ' ' && args[i + 1])
-			check = arg_append_to_res(res, args, i + 1);
+			check = arg_append_to_res(res, args, i + 1, &check);
 		if (!quote && (args[i] == '\'' || args[i] == '"'))
 			quote = args[i];
 		else if (quote && args[i] == quote)
