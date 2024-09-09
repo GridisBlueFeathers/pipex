@@ -6,59 +6,10 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/09 17:44:49 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:41:20 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#include "libft/ft_printf.h"
-
-void	cmd_exec_child_exit(t_pipex_state *s, int i)
-{
-	ft_dprintf(
-		STDERR_FILENO,
-		"pipex: command not found: %s\n",
-		s->cmds[i]->path
-		);
-	state_free(s);
-	exit(127);
-}
-
-void	cmd_exec_child(t_pipex_state *s, int fd[2], int i, int t)
-{
-	close(fd[0]);
-	if (t)
-	{
-		dup2(t, STDOUT_FILENO);
-		close(t);
-	}
-	else
-		dup2(fd[1], STDOUT_FILENO);
-	close(fd[1]);
-	if (execve(s->cmds[i]->path, s->cmds[i]->args, s->envp) == -1)
-		cmd_exec_child_exit(s, i);
-}
-
-void	cmd_exec(t_pipex_state *state, int i, int target)
-{
-	pid_t	pid;
-	int		fd[2];
-
-	if (pipe(fd) == -1)
-		perror("pipex");
-	pid = fork();
-	if (pid == -1)
-		perror("pipex");
-	if (pid == 0)
-		cmd_exec_child(state, fd, i, target);
-	else
-	{
-		state->last_pid = pid;
-		close(fd[1]);
-		if (!target)
-			dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-	}
-}
 
 int	state_cmds_run(t_pipex_state *state)
 {
@@ -74,12 +25,10 @@ int	state_cmds_run(t_pipex_state *state)
 		cmd_exec(state, i, 0);
 		i++;
 	}
-	if (state->out_fd == -1)
-		return (state_free(state), 126);
 	cmd_exec(state, i, state->out_fd);
 	close(state->out_fd);
 	if (waitpid(state->last_pid, &status, 0) == -1)
-		perror("pipex");
+		panic_perror_exit(state, 1);
 	if (WIFEXITED(status))
 		state->exit_status = WEXITSTATUS(status);
 	return (state_free(state), state->exit_status);

@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/09/09 17:53:53 by svereten         ###   ########.fr        #
+#    Updated: 2024/09/09 18:42:04 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -27,10 +27,12 @@ OBJ_DIR = obj
 
 FILES = env \
 		path \
+		panic \
 		state/state_feed \
 		state/state_init \
 		state/state_fd \
 		cmd/cmd_process \
+		cmd/cmd_exec \
 		cmds \
 		args/args \
 		args/args_split \
