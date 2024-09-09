@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:19:26 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/06 18:04:48 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/09 11:02:08 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  */
 int	args_check_quotes(char *arg)
 {
-	int		s_quote_count;
-	int		d_quote_count;
-	int		i;
+	size_t	s_quote_count;
+	size_t	d_quote_count;
+	size_t	i;
 	char	quote;
 
 	i = 0;
@@ -46,7 +46,7 @@ int	args_check_quotes(char *arg)
 /**
  * Returns amount of arguments in command
  */
-size_t	args_count(char *s, int *check)
+size_t	args_count(char *s)
 {
 	int			i;
 	size_t		res;
@@ -56,16 +56,16 @@ size_t	args_count(char *s, int *check)
 	res = 0;
 	quote = 0;
 	if (s[0] != ' ' && s[0])
-		ft_size_t_increment_check(&res, check);
+		res++;
 	if (s[0] && (s[0] == '\'' || s[0] == '"'))
 	{
 		quote = s[0];
-		ft_size_t_increment_check(&res, check);
+		res++;
 	}
 	while (s[i])
 	{
 		if (!quote && s[i] == ' ' && s[i + 1] != ' ' && s[i + 1])
-			ft_size_t_increment_check(&res, check);
+			res++;
 		if (!quote && i && (s[i] == '\'' || s[i] == '"'))
 			quote = s[i];
 		else if (quote && i && s[i] == quote)

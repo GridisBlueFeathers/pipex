@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/06 18:02:55 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/09 11:07:03 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
@@ -38,7 +38,7 @@ static int	args_toggle_quote(char *quote, char *str, int i)
 /**
  * Counts the length of an argument taking quotes into account
  */
-static int	arg_len(char *args, size_t start, int *check)
+static int	arg_len(char *args, size_t start)
 {
 	size_t	res;
 	size_t	i;
@@ -50,12 +50,12 @@ static int	arg_len(char *args, size_t start, int *check)
 	while (args[start + i])
 	{
 		if (args_toggle_quote(&quote, args, start + i))
-			ft_size_t_increment_check(&start, check);
+			start++;
 		if (!quote && args[start + i] == ' ')
 			break ;
 		if ((!quote && args[start + i] != ' ') || quote)
-			ft_size_t_increment_check(&res, check);
-		ft_size_t_increment_check(&i, check);
+			res++;
+		i++;
 	}
 	return (res);
 }
@@ -65,7 +65,7 @@ static int	arg_len(char *args, size_t start, int *check)
  * Allocates and appends to res new string, then copies content from initial
  * string
  */
-static int	arg_append_to_res(char **res, char *args, size_t start, int *check)
+static int	arg_append_to_res(char **res, char *args, size_t start)
 {
 	int		j;
 	size_t	i;
@@ -76,20 +76,20 @@ static int	arg_append_to_res(char **res, char *args, size_t start, int *check)
 	quote = 0;
 	while (res[j])
 		j++;
-	res[j] = (char *)ft_calloc(arg_len(args, start, check) + 1, sizeof(char));
-	if (!res[j] || !*check)
+	res[j] = (char *)ft_calloc(arg_len(args, start) + 1, sizeof(char));
+	if (!res[j])
 		return (ft_free(STR, &res[j]), 0);
-	while (args[start + i] && *check)
+	while (args[start + i])
 	{
 		if (args_toggle_quote(&quote, args, start + i))
-			ft_size_t_increment_check(&start, check);
+			start++;
 		if (!quote && args[start + i] == ' ')
 			break ;
 		if ((!quote && args[start + i] != ' ') || quote)
 			res[j][i] = args[start + i];
-		ft_size_t_increment_check(&i, check);
+		i++;
 	}
-	return (*check);
+	return (1);
 }
 
 /**
@@ -107,9 +107,9 @@ static int	args_iterate_split(char *args, char **res)
 	while (args[i] && check)
 	{
 		if (!i && args[i] != ' ')
-			check = arg_append_to_res(res, args, i, &check);
+			check = arg_append_to_res(res, args, i);
 		else if (!quote && args[i] == ' ' && args[i + 1] != ' ' && args[i + 1])
-			check = arg_append_to_res(res, args, i + 1, &check);
+			check = arg_append_to_res(res, args, i + 1);
 		if (!quote && (args[i] == '\'' || args[i] == '"'))
 			quote = args[i];
 		else if (quote && args[i] == quote)
@@ -131,12 +131,11 @@ char	**args_split(char *args)
 {
 	char	**res;
 	size_t	words_num;
-	int		check;
 
 	if (!args || !args_check_quotes(args))
 		return (NULL);
-	words_num = args_count(args, &check);
-	if (!words_num || !check)
+	words_num = args_count(args);
+	if (!words_num)
 		return (NULL);
 	res = (char **)ft_calloc(words_num + 1, sizeof(char *));
 	if (!res || !args_iterate_split(args, res))
