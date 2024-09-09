@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/09/06 18:45:30 by svereten         ###   ########.fr        #
+#    Updated: 2024/09/09 17:53:53 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -25,13 +25,13 @@ LIBFT_DIR = libft
 SRC_DIR = src
 OBJ_DIR = obj
 
-FILES = env/env \
-		path/path \
+FILES = env \
+		path \
 		state/state_feed \
 		state/state_init \
 		state/state_fd \
+		cmd/cmd_process \
 		cmds \
-		cmd \
 		args/args \
 		args/args_split \
 

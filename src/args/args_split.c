@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 17:23:07 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/09 11:07:03 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/09 11:40:59 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/libft.h"
@@ -59,7 +59,6 @@ static int	arg_len(char *args, size_t start)
 	}
 	return (res);
 }
-
 
 /**
  * Allocates and appends to res new string, then copies content from initial

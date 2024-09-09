@@ -6,11 +6,16 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 11:35:57 by svereten          #+#    #+#             */
-/*   Updated: 2024/07/30 15:52:06 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:46:36 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 
+/**
+ * Creates a copy of an environment variable
+ *
+ * If environment variable doesn't exist returns NULL
+ */
 char	*env_get(t_pipex_state *state, char *env)
 {
 	char	*res;

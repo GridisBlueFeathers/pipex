@@ -6,13 +6,13 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/06 13:28:17 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:44:49 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 #include "libft/ft_printf.h"
 
-void	cmd_exec_handle_child_exit(t_pipex_state *s, int i)
+void	cmd_exec_child_exit(t_pipex_state *s, int i)
 {
 	ft_dprintf(
 		STDERR_FILENO,
@@ -23,7 +23,7 @@ void	cmd_exec_handle_child_exit(t_pipex_state *s, int i)
 	exit(127);
 }
 
-void	cmd_exec_handle_child(t_pipex_state *s, int fd[2], int i, int t)
+void	cmd_exec_child(t_pipex_state *s, int fd[2], int i, int t)
 {
 	close(fd[0]);
 	if (t)
@@ -35,7 +35,7 @@ void	cmd_exec_handle_child(t_pipex_state *s, int fd[2], int i, int t)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	if (execve(s->cmds[i]->path, s->cmds[i]->args, s->envp) == -1)
-		cmd_exec_handle_child_exit(s, i);
+		cmd_exec_child_exit(s, i);
 }
 
 void	cmd_exec(t_pipex_state *state, int i, int target)
@@ -49,7 +49,7 @@ void	cmd_exec(t_pipex_state *state, int i, int target)
 	if (pid == -1)
 		perror("pipex");
 	if (pid == 0)
-		cmd_exec_handle_child(state, fd, i, target);
+		cmd_exec_child(state, fd, i, target);
 	else
 	{
 		state->last_pid = pid;
@@ -65,7 +65,6 @@ int	state_cmds_run(t_pipex_state *state)
 	int	status;
 	int	i;
 
-	state_fd_get_in_out(state);
 	if (state->in_fd > 0)
 		dup2(state->in_fd, STDIN_FILENO);
 	close(state->in_fd);
