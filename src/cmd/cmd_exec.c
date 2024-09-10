@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:15:39 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/10 16:54:57 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:13:05 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -52,7 +52,6 @@ static void	cmd_exec_child(t_pipex_state *s, int pipes[2], int i, int t)
 	if (execve(s->cmds[i]->path, s->cmds[i]->args, s->envp) == -1)
 		cmd_exec_child_panic(s, i);
 }
-
 
 /**
  * Sets pipes, forks a child, saves pid of a child

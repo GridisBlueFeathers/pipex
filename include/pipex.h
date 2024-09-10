@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/10 14:18:44 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:11:51 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -50,6 +50,7 @@ void	state_feed(t_pipex_state *state);
 void	state_free(t_pipex_state *state);
 
 int		cmds_process(t_pipex_state *state);
+int		cmds_exec(t_pipex_state *state);
 
 int		cmd_process(t_pipex_state *state, int i);
 void	cmd_exec(t_pipex_state *state, int i, int target);
