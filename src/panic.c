@@ -6,11 +6,20 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 13:33:58 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/09 17:58:39 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:18:20 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/ft_printf.h"
 #include "pipex.h"
+
+/**
+ * Panic and exit without printing anything
+ */
+void	panic_silent_exit(t_pipex_state *state, int status)
+{
+	state_free(state);
+	exit(status);
+}
 
 /**
  * Panic and exit printing out custom message

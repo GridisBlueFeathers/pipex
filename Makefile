@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/09/09 18:42:04 by svereten         ###   ########.fr        #
+#    Updated: 2024/09/10 13:25:21 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -100,7 +100,7 @@ ${DEV_NAME}: ${OBJS} ${DEV_OBJS} ${LIBFT}
 	${CC} ${CFLAGS} ${DEV_CFLAGS} ${INCLUDE} $^ -o $@
 
 norm:
-	norminette ${SRCS} src/main.c
+	norminette ${SRCS} src/main.c include/pipex.h
 
 ################################################################################
 #

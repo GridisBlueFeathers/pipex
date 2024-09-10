@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   cmd_process.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:59:48 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/05 18:23:58 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:21:01 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -14,7 +14,7 @@
 /**
  * Processes and sets cmd args
  */
-static int cmd_process_args(t_pipex_state *state, int i)
+static int	cmd_process_args(t_pipex_state *state, int i)
 {
 	state->cmds[i]->args = args_split(state->argv[i + 2]);
 	if (!state->cmds[i]->args)

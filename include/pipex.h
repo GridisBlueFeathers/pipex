@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/09 18:30:11 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:18:44 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -16,13 +16,19 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
-typedef struct	s_cmd
+typedef enum e_pipe
 {
-	char *path;
-	char **args;
+	RD,
+	WR
+}	t_pipe;
+
+typedef struct s_cmd
+{
+	char	*path;
+	char	**args;
 }	t_cmd;
 
-typedef struct	s_pipex_state
+typedef struct s_pipex_state
 {
 	int			argc;
 	int			error;
@@ -61,5 +67,6 @@ void	state_fd_get_in_out(t_pipex_state *s);
 
 void	panic_msg_exit(t_pipex_state *state, char *msg, int status);
 void	panic_perror_exit(t_pipex_state *state, int status);
+void	panic_silent_exit(t_pipex_state *state, int status);
 
 #endif

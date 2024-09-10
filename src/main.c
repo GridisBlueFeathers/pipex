@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/09 18:41:20 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:14:09 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -16,7 +16,7 @@ int	state_cmds_run(t_pipex_state *state)
 	int	status;
 	int	i;
 
-	if (state->in_fd > 0)
+	if (state->in_fd != -1)
 		dup2(state->in_fd, STDIN_FILENO);
 	close(state->in_fd);
 	i = 0;
