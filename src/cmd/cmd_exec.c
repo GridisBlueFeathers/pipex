@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:15:39 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/10 17:13:05 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:36:40 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -49,6 +49,7 @@ static void	cmd_exec_child(t_pipex_state *s, int pipes[2], int i, int t)
 	else
 		dup2(pipes[WR], STDOUT_FILENO);
 	close(pipes[WR]);
+	close(s->out_fd);
 	if (execve(s->cmds[i]->path, s->cmds[i]->args, s->envp) == -1)
 		cmd_exec_child_panic(s, i);
 }
