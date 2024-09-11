@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dev.h                                              :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 17:44:24 by svereten          #+#    #+#             */
-/*   Updated: 2024/06/21 11:17:02 by svereten         ###   ########.fr       */
+/*   Created: 2024/04/05 12:27:29 by svereten          #+#    #+#             */
+/*   Updated: 2024/07/26 00:28:30 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft/libft.h"
 
-#ifndef DEV_H
-# define DEV_H
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+{
+	size_t	i;
 
-#include "pipex.h"
-
-void	dev_state_print_path(t_pipex_state *state);
-void	dev_command_print_args(t_command *command);
-void	dev_state_print_command_path(t_pipex_state *state);
-void	dev_command_print_path(t_command *command);
-
-#endif
+	if (!s || !f)
+		return ;
+	i = 0;
+	while (i < ft_strlen(s))
+	{
+		f(i, &s[i]);
+		i++;
+	}
+}
