@@ -6,11 +6,10 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:15:39 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 15:15:21 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:52:30 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#include "libft/ft_printf.h"
 
 /**
  * Panic and exit child if execve fails because command doesn't exist
@@ -67,6 +66,14 @@ static void	cmd_exec_child(t_pipex_state *s, int pipes[2], int i, int t)
 		cmd_exec_child_panic(s, i);
 }
 
+void	cmd_exec_fork_panic(t_pipex_state *state, int pipes[2])
+{
+	close_wrapper(state, pipes[0]);
+	close_wrapper(state, pipes[1]);
+	close_wrapper(state, state->out_fd);
+	panic_perror_exit(state, 1);
+}
+
 /**
  * Sets pipes, forks a child, saves pid of a child
  *
@@ -81,7 +88,7 @@ void	cmd_exec(t_pipex_state *state, int i, int target)
 		panic_perror_exit(state, 1);
 	pid = fork();
 	if (pid == -1)
-		panic_perror_exit(state, 1);
+		cmd_exec_fork_panic(state, pipes);
 	if (pid == 0)
 		cmd_exec_child(state, pipes, i, target);
 	else

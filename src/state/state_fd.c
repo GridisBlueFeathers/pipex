@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:14:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 12:29:10 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:50:04 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft/ft_printf.h"
@@ -24,7 +24,7 @@ void	state_fd_get_in_out(t_pipex_state *s)
 	out_arg = s->argc - 1;
 	s->in_fd = open(s->argv[1], O_RDONLY);
 	if (s->in_fd == -1)
-		ft_dprintf(2, "pipex: permission denied: %s\n", s->argv[1]);
+		perror("pipex");
 	else
 		dup2_wrapper(s, s->in_fd, STDIN_FILENO);
 	s->out_fd = open(s->argv[out_arg], O_WRONLY | O_CREAT | O_TRUNC, 0644);
