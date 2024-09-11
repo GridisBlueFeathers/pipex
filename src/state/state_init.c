@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 17:00:45 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/10 17:42:34 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:05:05 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -36,21 +36,20 @@ void	state_free(t_pipex_state *state)
 
 	j = 0;
 	i = 0;
-	while (state->path_length > 0)
-	{
-		free(state->path[state->path_length - 1]);
-		state->path_length--;
-	}
-	free(state->path);
 	while (state->cmds && state->cmds[i])
 	{
 		j = 0;
-		ft_free(STR, &state->cmds[i]->path);
-		ft_free(STR_ARR, &state->cmds[i]->args);
-		ft_free(STRUCT, &state->cmds[i]);
+		free(state->cmds[i]->path);
+		while (state->cmds[i]->args && state->cmds[i]->args[j])
+		{
+			free(state->cmds[i]->args[j]);
+			j++;
+		}
+		free(state->cmds[i]->args);
+		free(state->cmds[i]);
 		i++;
 	}
-	ft_free(STR, &(state->cmds));
+	free(state->cmds);
 	state->argv = NULL;
 	state->envp = NULL;
 }

@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   state_feed.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 14:28:59 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 01:54:54 by svereten         ###   ########.fr       */
+/*   Created: 2024/09/11 02:21:10 by svereten          #+#    #+#             */
+/*   Updated: 2024/09/11 02:23:16 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
 
-/**
- * Processes arguments and creates cmds out of arguments
- */
-void	state_feed(t_pipex_state *state)
+void	dup2_wrapper(t_pipex_state *state, int old, int new)
 {
-	state_fd_get_in_out(state);
-	if (!path_get(state) || !cmds_process(state))
-		state->error = 1;
-	path_free(state);
+	if (dup2(old, new) == -1)
+		panic_perror_exit(state, 1);
+	if (close(old) == -1)
+		panic_perror_exit(state, 1);
 }

@@ -6,10 +6,23 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:06:10 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/03 14:26:14 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 01:54:21 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
+
+void	path_free(t_pipex_state *state)
+{
+	int	len;
+	
+	len = state->path_length;
+	while (len > 0)
+	{
+		free(state->path[len - 1]);
+		len--;
+	}
+	free(state->path);
+}
 
 /**
  * Get's amount of pathes in PATH variable

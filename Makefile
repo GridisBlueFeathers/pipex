@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
-#    Updated: 2024/09/10 13:25:21 by svereten         ###   ########.fr        #
+#    Updated: 2024/09/11 02:23:45 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -28,6 +28,7 @@ OBJ_DIR = obj
 FILES = env \
 		path \
 		panic \
+		utils \
 		state/state_feed \
 		state/state_init \
 		state/state_fd \

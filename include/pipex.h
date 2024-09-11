@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/10 17:11:51 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:23:59 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -69,5 +69,7 @@ void	state_fd_get_in_out(t_pipex_state *s);
 void	panic_msg_exit(t_pipex_state *state, char *msg, int status);
 void	panic_perror_exit(t_pipex_state *state, int status);
 void	panic_silent_exit(t_pipex_state *state, int status);
+
+void	dup2_wrapper(t_pipex_state *state, int old, int new);
 
 #endif
