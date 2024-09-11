@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:06:10 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 01:54:21 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:01:19 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -14,7 +14,9 @@
 void	path_free(t_pipex_state *state)
 {
 	int	len;
-	
+
+	if (!state->path)
+		return ;
 	len = state->path_length;
 	while (len > 0)
 	{
@@ -39,6 +41,8 @@ static int	path_get_length(t_pipex_state *state)
 
 /**
  * Gets PATH environment variable and splits it in an array of strings
+ *
+ * If no PATH, will continue and try execute commands by absolute pathes
  */
 int	path_get(t_pipex_state *state)
 {
@@ -48,7 +52,7 @@ int	path_get(t_pipex_state *state)
 
 	path_env = env_get(state, "PATH");
 	if (!path_env)
-		return (0);
+		return (1);
 	path_raw = ft_substr(path_env, 5, ft_strlen(path_env));
 	if (!path_raw)
 		return (ft_free(STR, &path_env), 0);

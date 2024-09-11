@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:15:39 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 02:25:26 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:15:21 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -17,11 +17,23 @@
  */
 static void	cmd_exec_child_panic(t_pipex_state *s, int i)
 {
-	ft_dprintf(
-		STDERR_FILENO,
-		"pipex: command not found: %s\n",
-		s->cmds[i]->path
-		);
+	char	*msg;
+	int		msg_len;
+
+	if (!s->cmds[i]->exec && s->cmds[i]->in_path)
+		panic_perror_exit(s, 126);
+	msg = ft_strdup("pipex: command not found: ");
+	if (!msg)
+		panic_silent_exit(s, 1);
+	msg = ft_strjoin(msg, s->cmds[i]->path);
+	if (!msg)
+		panic_silent_exit(s, 1);
+	msg = ft_strjoin(msg, "\n");
+	if (!msg)
+		panic_silent_exit(s, 1);
+	msg_len = 27 + ft_strlen(s->cmds[i]->path);
+	write(2, msg, msg_len);
+	ft_free(STR, &msg);
 	state_free(s);
 	exit(127);
 }
@@ -35,18 +47,22 @@ static void	cmd_exec_child_panic(t_pipex_state *s, int i)
  */
 static void	cmd_exec_child(t_pipex_state *s, int pipes[2], int i, int t)
 {
-	close(pipes[RD]);
+	close_wrapper(s, pipes[RD]);
 	if ((!i && s->in_fd == -1) || (!s->cmds[i + 1] && s->out_fd == -1))
 	{
-		close(pipes[WR]);
+		close_wrapper(s, pipes[WR]);
 		panic_silent_exit(s, 1);
 	}
 	else if (t)
+	{
 		dup2_wrapper(s, t, STDOUT_FILENO);
+		close_wrapper(s, pipes[WR]);
+	}
 	else
+	{
 		dup2_wrapper(s, pipes[WR], STDOUT_FILENO);
-	close(pipes[WR]);
-	close(s->out_fd);
+		close_wrapper(s, s->out_fd);
+	}
 	if (execve(s->cmds[i]->path, s->cmds[i]->args, s->envp) == -1)
 		cmd_exec_child_panic(s, i);
 }
@@ -71,9 +87,10 @@ void	cmd_exec(t_pipex_state *state, int i, int target)
 	else
 	{
 		state->last_pid = pid;
-		close(pipes[WR]);
+		close_wrapper(state, pipes[WR]);
 		if (!target)
 			dup2_wrapper(state, pipes[RD], STDIN_FILENO);
-		close(pipes[RD]);
+		else
+			close_wrapper(state, pipes[RD]);
 	}
 }

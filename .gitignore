@@ -16,6 +16,8 @@ unreadable
 outbash
 outhey
 output
+zsh_outfile
+test.sh
 
 #testers
 pipexMedic/

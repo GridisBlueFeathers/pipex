@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 02:23:59 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:07:53 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -26,6 +26,8 @@ typedef struct s_cmd
 {
 	char	*path;
 	char	**args;
+	int		exec;
+	int		in_path;
 }	t_cmd;
 
 typedef struct s_pipex_state
@@ -71,5 +73,6 @@ void	panic_perror_exit(t_pipex_state *state, int status);
 void	panic_silent_exit(t_pipex_state *state, int status);
 
 void	dup2_wrapper(t_pipex_state *state, int old, int new);
+void	close_wrapper(t_pipex_state *state, int fd);
 
 #endif

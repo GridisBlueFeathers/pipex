@@ -6,10 +6,11 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:59:48 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/10 14:21:01 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:08:37 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
+#include <stdio.h>
 
 /**
  * Processes and sets cmd args
@@ -20,6 +21,26 @@ static int	cmd_process_args(t_pipex_state *state, int i)
 	if (!state->cmds[i]->args)
 		return (0);
 	return (1);
+}
+
+static int	cmd_process_path_access(t_pipex_state *state, int index, char *arg)
+{
+	if (!access(arg, X_OK))
+	{
+		if (state->cmds[index]->path)
+			free(state->cmds[index]->path);
+		state->cmds[index]->path = arg;
+		state->cmds[index]->in_path = 1;
+		return (1);
+	}
+	if (!access(arg, F_OK))
+	{
+		if (state->cmds[index]->path)
+			free(state->cmds[index]->path);
+		state->cmds[index]->path = ft_strdup(arg);
+		state->cmds[index]->in_path = 1;
+	}
+	return (0);
 }
 
 /**
@@ -38,21 +59,21 @@ static int	cmd_process_path(t_pipex_state *state, int index)
 	int		i;
 
 	i = 0;
-	while (state->path[i])
+	while (state->path && state->path[i])
 	{
 		path_dup = ft_strdup(state->path[i]);
 		if (!path_dup)
 			return (0);
 		path_arg = ft_strjoin(path_dup, state->cmds[index]->args[0]);
-		if (!access(path_arg, X_OK))
-		{
-			state->cmds[index]->path = path_arg;
+		if (!path_arg)
+			return (0);
+		if (cmd_process_path_access(state, index, path_arg))
 			return (1);
-		}
 		ft_free(STR, &path_arg);
 		i++;
 	}
-	state->cmds[index]->path = ft_strdup(state->cmds[index]->args[0]);
+	if (!state->cmds[index]->path)
+		state->cmds[index]->path = ft_strdup(state->cmds[index]->args[0]);
 	return (1);
 }
 
@@ -62,9 +83,15 @@ static int	cmd_process_path(t_pipex_state *state, int index)
 int	cmd_process(t_pipex_state *state, int i)
 {
 	state->cmds[i] = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	if (!state->cmds[i]
-		|| !cmd_process_args(state, i)
-		|| !cmd_process_path(state, i))
+	if (!state->cmds[i])
 		return (0);
+	state->cmds[i]->path = NULL;
+	state->cmds[i]->in_path = 0;
+	if (!cmd_process_args(state, i) || !cmd_process_path(state, i))
+		return (0);
+	if (!access(state->cmds[i]->path, X_OK))
+		state->cmds[i]->exec = 1;
+	else
+		state->cmds[i]->exec = 0;
 	return (1);
 }

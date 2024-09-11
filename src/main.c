@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:53:12 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/10 17:12:54 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:57:28 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -20,6 +20,6 @@ int	main(int argc, char **argv, char **envp)
 	state_init(&state, argc, argv, envp);
 	state_feed(&state);
 	if (state.error)
-		return (state_free(&state), 127);
+		return (state_free(&state), 1);
 	return (cmds_exec(&state));
 }
