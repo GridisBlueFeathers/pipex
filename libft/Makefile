@@ -6,7 +6,7 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/09 14:07:03 by svereten          #+#    #+#              #
-#    Updated: 2024/09/06 14:38:16 by svereten         ###   ########.fr        #
+#    Updated: 2024/09/11 15:39:27 by svereten         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libft.a
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 SRCS_DIR = src
 
@@ -76,8 +76,6 @@ SRCS_PROJ = libft/ft_isalnum \
 			ft-printf/ft_print_pointer_addr \
 			ft-printf/ft_printf \
 
-SRCS = ${SRCS_PROJ:%=${SRCS_DIR}/%.c}
-
 OBJS = ${SRCS_PROJ:%=${OBJS_DIR}/%.o}
 
 INCLUDES = -I./include
@@ -92,9 +90,6 @@ all: ${NAME}
 
 ${NAME}: ${OBJS}
 	${AR} ${NAME} ${OBJS}
-
-bonus: ${BONUS_OBJS} ${OBJS}
-	${AR} ${NAME} $^
 
 ${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c | ${OBJS_DIRS}
 	${CC} ${CFLAGS} -c $< ${INCLUDES} -o $@ 
