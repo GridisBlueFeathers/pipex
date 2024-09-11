@@ -6,15 +6,14 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 02:21:10 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 12:29:58 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:54:35 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#include <errno.h>
 
 void	close_wrapper(t_pipex_state *state, int fd)
 {
-	if (close(fd) == -1)
+	if (fd >= 0 && close(fd) == -1)
 		panic_perror_exit(state, 1);
 }
 

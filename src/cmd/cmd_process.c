@@ -6,11 +6,10 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:59:48 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 15:08:37 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:54:52 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
-#include <stdio.h>
 
 /**
  * Processes and sets cmd args
