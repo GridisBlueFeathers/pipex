@@ -6,7 +6,11 @@
 #    By: svereten <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/17 14:23:33 by svereten          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/09/11 15:29:38 by svereten         ###   ########.fr        #
+=======
+#    Updated: 2024/09/11 16:07:44 by svereten         ###   ########.fr        #
+>>>>>>> pre-eval
 #                                                                              #
 # **************************************************************************** #
 NAME = pipex
@@ -64,5 +68,11 @@ fclean: clean
 	${MAKE} fclean -C ${LIBFT_DIR}
 
 re: fclean all
+<<<<<<< HEAD
 
 .PHONY: all dev clean fclean re
+=======
+	${MAKE} re -C ${LIBFT_DIR}
+
+.PHONY: all clean fclean re
+>>>>>>> pre-eval
