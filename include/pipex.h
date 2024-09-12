@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/12 17:01:58 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:37:44 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -69,7 +69,6 @@ int		args_check_quotes(char *arg);
 void	state_fd_get_in(t_pipex_state *s);
 void	state_fd_get_out(t_pipex_state *s);
 
-void	panic_msg_exit(t_pipex_state *state, char *msg, int status);
 void	panic_perror_exit(t_pipex_state *state, int status);
 void	panic_silent_exit(t_pipex_state *state, int status);
 
