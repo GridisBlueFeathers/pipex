@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:54:27 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 14:58:58 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:03:02 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -55,6 +55,7 @@ int	cmds_exec(t_pipex_state *state)
 		cmd_exec(state, i, 0);
 		i++;
 	}
+	state_fd_get_out(state);
 	cmd_exec(state, i, state->out_fd);
 	close_wrapper(state, state->out_fd);
 	if (waitpid(state->last_pid, &status, 0) == -1)

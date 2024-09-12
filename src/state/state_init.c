@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 17:00:45 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 02:05:05 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:12:27 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -24,6 +24,7 @@ void	state_init(t_pipex_state *s, int c, char **v, char **e)
 	s->path_length = 0;
 	s->error = 0;
 	s->last_pid = 0;
+	s->out_fd = -1;
 }
 
 /**
