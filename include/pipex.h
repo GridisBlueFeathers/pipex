@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:12:04 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/12 17:37:44 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/13 14:42:21 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -26,7 +26,6 @@ typedef struct s_cmd
 {
 	char	*path;
 	char	**args;
-	int		exec;
 	int		in_path;
 }	t_cmd;
 
