@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:15:39 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/12 17:30:16 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:39:36 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -18,9 +18,12 @@ static void	cmd_exec_child_panic(t_pipex_state *s, int i)
 {
 	char	*msg;
 
-	if (!s->cmds[i]->exec && s->cmds[i]->in_path)
+	if (s->cmds[i]->in_path || !access(s->cmds[i]->path, F_OK))
 		panic_perror_exit(s, 126);
-	msg = ft_strdup("pipex: command not found: ");
+	if (ft_strchr(s->cmds[i]->path, '/'))
+		msg = ft_strdup("pipex: no such file or directory: ");
+	else
+		msg = ft_strdup("pipex: command not found: ");
 	if (!msg)
 		panic_silent_exit(s, 1);
 	msg = ft_strjoin(msg, s->cmds[i]->path);

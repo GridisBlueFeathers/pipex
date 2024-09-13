@@ -6,7 +6,7 @@
 /*   By: svereten <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:59:48 by svereten          #+#    #+#             */
-/*   Updated: 2024/09/11 23:54:52 by svereten         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:42:08 by svereten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -58,7 +58,8 @@ static int	cmd_process_path(t_pipex_state *state, int index)
 	int		i;
 
 	i = 0;
-	while (state->path && state->path[i])
+	while (state->path && state->path[i]
+		&& !ft_strchr(state->cmds[index]->args[0], '/'))
 	{
 		path_dup = ft_strdup(state->path[i]);
 		if (!path_dup)
@@ -86,11 +87,9 @@ int	cmd_process(t_pipex_state *state, int i)
 		return (0);
 	state->cmds[i]->path = NULL;
 	state->cmds[i]->in_path = 0;
-	if (!cmd_process_args(state, i) || !cmd_process_path(state, i))
+	if (!cmd_process_args(state, i)
+		|| !cmd_process_path(state, i)
+		|| !state->cmds[i]->path)
 		return (0);
-	if (!access(state->cmds[i]->path, X_OK))
-		state->cmds[i]->exec = 1;
-	else
-		state->cmds[i]->exec = 0;
 	return (1);
 }
